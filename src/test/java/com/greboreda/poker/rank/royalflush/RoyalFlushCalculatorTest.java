@@ -18,15 +18,14 @@ public class RoyalFlushCalculatorTest {
 	public void whenHandHasAceKingQueenJackAndTenOfSameSuit_then_hasRoyalFlush() {
 
 		final Suit aSuit = Suit.CLUBS;
-		final Hand royalFushHand = HandFactory.createRoyalFlush(aSuit);
+		final Hand royalFlushHand = HandFactory.createRoyalFlush(aSuit);
 
 		final RoyalFlushCalculator royalFlushCalculator = new RoyalFlushCalculator();
-		Optional<RoyalFlush> maybeRoyalFlush = royalFlushCalculator.calculateRank(royalFushHand);
+		Optional<RoyalFlush> maybeRoyalFlush = royalFlushCalculator.calculateRank(royalFlushHand);
 
 		assertThat(maybeRoyalFlush.isPresent(), is(true));
 		final RoyalFlush royalFlush = maybeRoyalFlush.get();
 		assertThat(royalFlush.getRankValue(), is(RankValue.ROYAL_FLUSH));
-		assertThat(royalFlush.suit, is(aSuit));
 	}
 
 }

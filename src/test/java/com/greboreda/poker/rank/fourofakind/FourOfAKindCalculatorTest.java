@@ -23,8 +23,8 @@ public class FourOfAKindCalculatorTest {
 
 		assertThat(maybeFourOfAKind.isPresent(), is(true));
 		final FourOfAKind fourOfAKind = maybeFourOfAKind.get();
-		assertThat(fourOfAKind.value, is(Value.ACE));
-		assertThat(fourOfAKind.kicker, is(Value.KING));
+		assertThat(fourOfAKind.getValue(), is(Value.ACE));
+		assertThat(fourOfAKind.getKicker(), is(Value.KING));
 	}
 
 }

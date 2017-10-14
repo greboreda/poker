@@ -3,7 +3,6 @@ package com.greboreda.poker;
 import com.greboreda.poker.Card.Suit;
 import com.greboreda.poker.Card.Value;
 import com.greboreda.poker.rank.Rank.RankValue;
-import com.greboreda.poker.rank.royalflush.RoyalFlush;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -30,8 +29,7 @@ public class HandTest {
 				() -> assertThat(hand.findValueRepeated(2), empty())
 		);
 		assertAll("hand rank",
-				() -> assertThat(hand.rank.getRankValue(), is(RankValue.ROYAL_FLUSH)),
-				() -> assertThat( ((RoyalFlush) hand.rank).suit, is(Suit.HEARTS))
+				() -> assertThat(hand.getRank().getRankValue(), is(RankValue.ROYAL_FLUSH))
 		);
 	}
 

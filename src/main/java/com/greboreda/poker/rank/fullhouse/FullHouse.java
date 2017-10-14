@@ -7,8 +7,8 @@ import org.apache.commons.lang3.Validate;
 
 public class FullHouse implements Rank {
 
-	public final Value value;
-	public final Value over;
+	private final Value value;
+	private final Value over;
 
 	private FullHouse(Value value, Value over) {
 		Validate.notNull(value);
@@ -18,6 +18,14 @@ public class FullHouse implements Rank {
 		}
 		this.value = value;
 		this.over = over;
+	}
+
+	public Value getValue() {
+		return value;
+	}
+
+	public Value getOver() {
+		return over;
 	}
 
 	@Override

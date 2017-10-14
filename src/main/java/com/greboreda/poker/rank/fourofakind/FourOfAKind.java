@@ -3,12 +3,13 @@ package com.greboreda.poker.rank.fourofakind;
 import com.greboreda.poker.Card.Value;
 import com.greboreda.poker.MatchResult;
 import com.greboreda.poker.rank.Rank;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.Validate;
 
 public class FourOfAKind implements Rank {
 
-	public final Value value;
-	public final Value kicker;
+	private final Value value;
+	private final Value kicker;
 
 	private FourOfAKind(Value value, Value kicker) {
 		Validate.notNull(value);
@@ -20,6 +21,14 @@ public class FourOfAKind implements Rank {
 		this.kicker = kicker;
 	}
 
+	public Value getValue() {
+		return value;
+	}
+
+	public Value getKicker() {
+		return kicker;
+	}
+
 	@Override
 	public RankValue getRankValue() {
 		return RankValue.FOUR_OF_A_KIND;
@@ -27,7 +36,7 @@ public class FourOfAKind implements Rank {
 
 	@Override
 	public MatchResult compare(Rank another) {
-		return null;
+		throw new NotImplementedException("not implemented yet");
 	}
 
 	public static FourOfAKindBuilder create() {

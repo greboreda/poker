@@ -6,6 +6,8 @@ import com.greboreda.poker.rank.HandRankCalculator;
 import com.greboreda.poker.rank.Rank;
 import org.apache.commons.lang3.Validate;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -14,47 +16,42 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toSet;
 
-public class Hand  {
+public class Hand {
+
+	private static final HandRankCalculator handRankCalculator = new HandRankCalculator();
 
 	private final Set<Card> cards;
-	public final Rank rank;
+	private final Rank rank;
 
 	public Hand(Card card1, Card card2, Card card3, Card card4, Card card5) {
-		Validate.notNull(card1);
-		Validate.notNull(card2);
-		Validate.notNull(card3);
-		Validate.notNull(card4);
-		Validate.notNull(card5);
-		cards = new HashSet<>();
-		cards.add(card1);
-		cards.add(card2);
-		cards.add(card3);
-		cards.add(card4);
-		cards.add(card5);
+		final Card[] params = {card1, card2, card3, card4, card5};
+		Validate.noNullElements(params);
+		cards = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(params)));
 		if (!allCardsAreDifferent()) {
 			throw new IllegalStateException("cards must be different each other");
 		}
-		final HandRankCalculator handRankCalculator = new HandRankCalculator();
 		rank = handRankCalculator.calculateHandRank(this);
 	}
 
-	public Set<Suit> getDistinctSuits() {
+	public Rank getRank() {
+		return rank;
+	}
 
+	public Set<Suit> getDistinctSuits() {
 		return cards.stream()
-				.map(c -> c.suit)
+				.map(Card::getSuit)
 				.collect(toSet());
 	}
 
-
 	public Set<Value> getCardsValues() {
 		return cards.stream()
-				.map(c -> c.value)
+				.map(Card::getValue)
 				.collect(toSet());
 	}
 
 	public Set<Value> findValueRepeated(Integer times) {
 		return cards.stream()
-				.collect(groupingBy(h -> h.value, counting()))
+				.collect(groupingBy(Card::getValue, counting()))
 				.entrySet()
 				.stream()
 				.filter(e -> e.getValue().equals(new Long(times)))
@@ -64,39 +61,6 @@ public class Hand  {
 
 	private boolean allCardsAreDifferent() {
 		return cards.size() == 5;
-	}
-
-	public static HandBuilder create() {
-		return new HandBuilder();
-	}
-
-	public static class HandBuilder {
-		@FunctionalInterface
-		public interface AddSecondCard {
-			AddThirdCard withSecondCard(Card card);
-		}
-		@FunctionalInterface
-		public interface AddThirdCard {
-			AddFourthCard withThirdCard(Card card);
-		}
-		@FunctionalInterface
-		public interface AddFourthCard {
-			AddFifthCard withFourthCard(Card card);
-		}
-		@FunctionalInterface
-		public interface AddFifthCard {
-			Builder withFifthCard(Card card);
-		}
-		@FunctionalInterface
-		public interface Builder {
-			Hand build();
-		}
-		private HandBuilder() {
-
-		}
-		public AddSecondCard withFirstCard(Card card) {
-			return card2 -> card3 -> card4 -> card5 -> () -> new Hand(card, card2, card3, card4, card5);
-		}
 	}
 
 }

@@ -25,8 +25,8 @@ public class FullHouseCalculatorTest {
 		assertTrue(maybeFullHouse.isPresent());
 		final FullHouse fullHouse = maybeFullHouse.get();
 		assertThat(fullHouse.getRankValue(), is(RankValue.FULL_HOUSE));
-		assertThat(fullHouse.value, is(Value.EIGHT));
-		assertThat(fullHouse.over, is(Value.FIVE));
+		assertThat(fullHouse.getValue(), is(Value.EIGHT));
+		assertThat(fullHouse.getOver(), is(Value.FIVE));
 
 	}
 }

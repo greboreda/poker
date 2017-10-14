@@ -1,16 +1,9 @@
 package com.greboreda.poker.rank.royalflush;
 
-import com.greboreda.poker.Card.Suit;
 import com.greboreda.poker.MatchResult;
 import com.greboreda.poker.rank.Rank;
 
 public class RoyalFlush implements Rank {
-
-	public final Suit suit;
-
-	public RoyalFlush(Suit suit) {
-		this.suit = suit;
-	}
 
 	@Override
 	public RankValue getRankValue() {

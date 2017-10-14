@@ -4,14 +4,22 @@ import org.apache.commons.lang3.Validate;
 
 public class Card {
 
-	public final Value value;
-	public final Suit suit;
+	private final Value value;
+	private final Suit suit;
 
 	private Card(Value value, Suit suit) {
 		Validate.notNull(value);
 		Validate.notNull(suit);
 		this.value = value;
 		this.suit = suit;
+	}
+
+	public Value getValue() {
+		return value;
+	}
+
+	public Suit getSuit() {
+		return suit;
 	}
 
 	@Override
