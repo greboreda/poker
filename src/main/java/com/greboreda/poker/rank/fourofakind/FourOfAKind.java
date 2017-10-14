@@ -36,23 +36,22 @@ public class FourOfAKind implements Rank {
 	@Override
 	public Comparision compare(Rank another) {
 		Validate.notNull(another);
-		Comparision result = null;
-		if(RankValue.ROYAL_FLUSH.equals(another.getRankValue())) {
-			result = Comparision.LOOSE;
-		} else if(RankValue.FOUR_OF_A_KIND.equals(another.getRankValue())) {
-			final FourOfAKind anotherFourOfAKind = (FourOfAKind) another;
-			final Comparision valueComparision = this.getValue().compare(anotherFourOfAKind.getValue());
-			if(valueComparision.equals(Comparision.WIN)) {
-				result = Comparision.WIN;
-			} else if (valueComparision.equals(Comparision.LOOSE)) {
-				result =Comparision.LOOSE;
-			} else if(valueComparision.equals(Comparision.TIE)) {
-				result = this.getKicker().compare(anotherFourOfAKind.getKicker());
-			}
-		} else {
-			result = Comparision.WIN;
+		final boolean anotherIsRoyalFlush = RankValue.ROYAL_FLUSH.equals(another.getRankValue());
+		final boolean anotherIsFourOfAKind = RankValue.FOUR_OF_A_KIND.equals(another.getRankValue());
+		if(anotherIsRoyalFlush) {
+			return Comparision.LOOSE;
+		} else if (!anotherIsFourOfAKind) {
+			return Comparision.WIN;
 		}
-		return result;
+		return compareWithAnotherFourOfAKind((FourOfAKind) another);
+	}
+
+	private Comparision compareWithAnotherFourOfAKind(FourOfAKind anotherFourOfAKind) {
+		final Comparision valueComparision = this.getValue().compare(anotherFourOfAKind.getValue());
+		if(valueComparision.isWin() || valueComparision.isLoose()) {
+			return valueComparision;
+		}
+		return this.getKicker().compare(anotherFourOfAKind.getKicker());
 	}
 
 	public static FourOfAKindBuilder create() {
