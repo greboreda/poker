@@ -1,6 +1,6 @@
 package com.greboreda.poker.rank.fourofakind;
 
-import com.greboreda.poker.Card.Value;
+import com.greboreda.poker.card.Value;
 import com.greboreda.poker.Comparision;
 import com.greboreda.poker.RankFactory;
 import com.greboreda.poker.rank.royalflush.RoyalFlush;

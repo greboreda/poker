@@ -1,7 +1,7 @@
 package com.greboreda.poker.rank.royalflush;
 
 
-import com.greboreda.poker.Card.Suit;
+import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.Hand;
 import com.greboreda.poker.HandFactory;
 import com.greboreda.poker.rank.Rank.RankValue;

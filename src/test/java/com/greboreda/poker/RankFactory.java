@@ -1,7 +1,7 @@
 package com.greboreda.poker;
 
-import com.greboreda.poker.Card.Suit;
-import com.greboreda.poker.Card.Value;
+import com.greboreda.poker.card.Suit;
+import com.greboreda.poker.card.Value;
 import com.greboreda.poker.rank.fourofakind.FourOfAKind;
 import com.greboreda.poker.rank.royalflush.RoyalFlush;
 

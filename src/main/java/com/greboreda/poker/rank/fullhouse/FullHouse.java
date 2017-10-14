@@ -1,6 +1,6 @@
 package com.greboreda.poker.rank.fullhouse;
 
-import com.greboreda.poker.Card.Value;
+import com.greboreda.poker.card.Value;
 import com.greboreda.poker.Comparision;
 import com.greboreda.poker.rank.Rank;
 import org.apache.commons.lang3.Validate;

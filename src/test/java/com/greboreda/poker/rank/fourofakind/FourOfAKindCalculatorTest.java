@@ -1,7 +1,7 @@
 package com.greboreda.poker.rank.fourofakind;
 
-import com.greboreda.poker.Card.Suit;
-import com.greboreda.poker.Card.Value;
+import com.greboreda.poker.card.Suit;
+import com.greboreda.poker.card.Value;
 import com.greboreda.poker.Hand;
 import com.greboreda.poker.HandFactory;
 import org.junit.jupiter.api.Test;

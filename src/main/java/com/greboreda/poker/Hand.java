@@ -1,7 +1,8 @@
 package com.greboreda.poker;
 
-import com.greboreda.poker.Card.Suit;
-import com.greboreda.poker.Card.Value;
+import com.greboreda.poker.card.Card;
+import com.greboreda.poker.card.Suit;
+import com.greboreda.poker.card.Value;
 import com.greboreda.poker.rank.HandRankCalculator;
 import com.greboreda.poker.rank.Rank;
 import org.apache.commons.lang3.Validate;
