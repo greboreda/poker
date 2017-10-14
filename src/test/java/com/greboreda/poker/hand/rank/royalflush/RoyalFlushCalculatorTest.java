@@ -11,11 +11,12 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RoyalFlushCalculatorTest {
+class RoyalFlushCalculatorTest {
 
 	@Test
-	public void whenHandHasAceKingQueenJackAndTenOfSameSuit_then_hasRoyalFlush() {
+	void whenHandHasAceKingQueenJackAndTenOfSameSuit_then_hasRoyalFlush() {
 
 		final Suit aSuit = Suit.CLUBS;
 		final Hand royalFlushHand = HandFactory.createRoyalFlush(aSuit);
@@ -23,7 +24,7 @@ public class RoyalFlushCalculatorTest {
 		final RoyalFlushCalculator royalFlushCalculator = new RoyalFlushCalculator();
 		Optional<RoyalFlush> maybeRoyalFlush = royalFlushCalculator.calculateRank(royalFlushHand);
 
-		assertThat(maybeRoyalFlush.isPresent(), is(true));
+		assertTrue(maybeRoyalFlush.isPresent());
 		final RoyalFlush royalFlush = maybeRoyalFlush.get();
 		assertThat(royalFlush.getRankValue(), is(RankValue.ROYAL_FLUSH));
 	}

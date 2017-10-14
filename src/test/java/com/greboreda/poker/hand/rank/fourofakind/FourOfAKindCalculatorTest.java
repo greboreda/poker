@@ -8,20 +8,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
-public class FourOfAKindCalculatorTest {
+class FourOfAKindCalculatorTest {
 
 	@Test
-	public void when_handHasFourCardsOfSameValue_then_hasFourOfAKind() {
+	void when_handHasFourCardsOfSameValue_then_hasFourOfAKind() {
 
 		final Hand fourOfAKindHand = HandFactory.createFourOfAKind(Value.ACE, Suit.DIAMONDS, Value.KING);
 
 		final FourOfAKindCalculator fourOfAKindCalculator = new FourOfAKindCalculator();
 		final Optional<FourOfAKind> maybeFourOfAKind = fourOfAKindCalculator.calculateRank(fourOfAKindHand);
 
-		assertThat(maybeFourOfAKind.isPresent(), is(true));
+		assertTrue(maybeFourOfAKind.isPresent());
 		final FourOfAKind fourOfAKind = maybeFourOfAKind.get();
 		assertThat(fourOfAKind.getValue(), is(Value.ACE));
 		assertThat(fourOfAKind.getKicker(), is(Value.KING));

@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.is;
 class FourOfAKindTest {
 
 	@Test
-	public void when_comparingFourOfAKindWithRoyalFlush_then_resultIsLoose() {
+	void when_comparingFourOfAKindWithRoyalFlush_then_resultIsLoose() {
 
 		final FourOfAKind fourOfAKind = RankFactory.createFourOfAKind();
 		final RoyalFlush royalFlush = RankFactory.createRoyalFlush();
@@ -21,7 +21,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	public void when_comparingWithAnotherFourOfAKindIfHasBetterValue_then_resultIsWin() {
+	void when_comparingWithAnotherFourOfAKindIfHasBetterValue_then_resultIsWin() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.ACE)
@@ -37,7 +37,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	public void when_comparingWithAnotherFourOfAKindIfHasWorseValue_then_resultIsLoose() {
+	void when_comparingWithAnotherFourOfAKindIfHasWorseValue_then_resultIsLoose() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.TEN)
@@ -53,7 +53,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	public void when_comparingWithAnotherFourOfAKindIfHasSameValueButBetterKicker_then_resultIsWin() {
+	void when_comparingWithAnotherFourOfAKindIfHasSameValueButBetterKicker_then_resultIsWin() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.ACE)
@@ -69,7 +69,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	public void when_comparingWithAnotherFourOfAKindIfHasSameValueButWorseKicker_then_resultIsLoose() {
+	void when_comparingWithAnotherFourOfAKindIfHasSameValueButWorseKicker_then_resultIsLoose() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.ACE)
@@ -85,7 +85,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	public void when_comparingWithAnotherFourOfAKindIfHasSameValueAndKicker_then_resultIsTie() {
+	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndKicker_then_resultIsTie() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.ACE)

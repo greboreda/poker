@@ -3,7 +3,6 @@ package com.greboreda.poker.hand;
 import com.greboreda.poker.card.Card;
 import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
-import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.Rank.RankValue;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +13,10 @@ import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class HandTest {
+class HandTest {
 
 	@Test
-	public void testBuildHand() {
+	void testBuildHand() {
 
 		final Card card1 = Card.create().withValue(Value.ACE).withSuit(Suit.HEARTS).build();
 		final Card card2 = Card.create().withValue(Value.TEN).withSuit(Suit.HEARTS).build();
@@ -35,9 +34,8 @@ public class HandTest {
 		);
 	}
 
-
 	@Test
-	public void when_notAllCardsAreDifferentEachOther_then_throwError() {
+	void when_notAllCardsAreDifferentEachOther_then_throwError() {
 
 		final Card card1 = Card.create().withValue(Value.ACE).withSuit(Suit.HEARTS).build();
 		final Card card2 = Card.create().withValue(Value.TEN).withSuit(Suit.HEARTS).build();

@@ -12,10 +12,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FullHouseCalculatorTest {
+class FullHouseCalculatorTest {
 
 	@Test
-	public void when_handHasThreeCardOfSameValueAndTwoOfAnotherSameValue_then_hasFullHouse() {
+	void when_handHasThreeCardOfSameValueAndTwoOfAnotherSameValue_then_hasFullHouse() {
 
 		final Hand fullHouseHand = createFullHouse(Value.EIGHT, Value.FIVE);
 
