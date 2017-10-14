@@ -1,6 +1,6 @@
 package com.greboreda.poker.rank.royalflush;
 
-import com.greboreda.poker.MatchResult;
+import com.greboreda.poker.Comparision;
 import com.greboreda.poker.rank.Rank;
 
 public class RoyalFlush implements Rank {
@@ -11,10 +11,10 @@ public class RoyalFlush implements Rank {
 	}
 
 	@Override
-	public MatchResult compare(Rank another) {
+	public Comparision compare(Rank another) {
 		if(RankValue.ROYAL_FLUSH.equals(another.getRankValue())) {
-			return MatchResult.TIE;
+			return Comparision.TIE;
 		}
-		return MatchResult.WIN;
+		return Comparision.WIN;
 	}
 }

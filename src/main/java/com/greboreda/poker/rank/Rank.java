@@ -1,7 +1,7 @@
 package com.greboreda.poker.rank;
 
 import com.greboreda.poker.Hand;
-import com.greboreda.poker.MatchResult;
+import com.greboreda.poker.Comparision;
 
 import java.util.Optional;
 
@@ -9,7 +9,7 @@ public interface Rank {
 
 	RankValue getRankValue();
 
-	MatchResult compare(Rank another);
+	Comparision compare(Rank another);
 
 	enum RankValue {
 		ROYAL_FLUSH,
@@ -21,7 +21,7 @@ public interface Rank {
 		THREE_OF_A_KIND,
 		TWO_PAIRS,
 		ONE_PAIR,
-		HIGH_CARD;
+		HIGH_CARD
 	}
 
 	interface RankCalculator<T extends Rank> {

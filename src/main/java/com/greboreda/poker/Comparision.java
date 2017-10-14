@@ -1,7 +1,7 @@
 package com.greboreda.poker;
 
-public enum MatchResult {
+public enum Comparision {
 	WIN,
 	LOOSE,
-	TIE;
+	TIE
 }
