@@ -33,5 +33,14 @@ public class HandFactory {
 		return new Hand(trio1, trio2, trio3, pair1, pair2);
 	}
 
+	public static Hand createFlush(Suit suit, Value value1, Value value2, Value value3, Value value4, Value value5) {
+		final Card card1 = Card.create().withValue(value1).withSuit(suit).build();
+		final Card card2 = Card.create().withValue(value2).withSuit(suit).build();
+		final Card card3 = Card.create().withValue(value3).withSuit(suit).build();
+		final Card card4 = Card.create().withValue(value4).withSuit(suit).build();
+		final Card card5 = Card.create().withValue(value5).withSuit(suit).build();
+		return new Hand(card1, card2, card3, card4, card5);
+	}
+
 
 }

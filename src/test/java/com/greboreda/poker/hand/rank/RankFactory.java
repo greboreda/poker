@@ -41,11 +41,11 @@ public class RankFactory {
 
 	public static Flush createFlush() {
 		return Flush.create()
-				.withHighKicker(Value.ACE)
-				.withSecondKicker(Value.TEN)
-				.withThirdKicker(Value.SIX)
-				.withFourthKicker(Value.THREE)
-				.withFifthKicker(Value.TWO)
+				.withKicker(Value.ACE)
+				.withKicker(Value.TEN)
+				.withKicker(Value.SIX)
+				.withKicker(Value.THREE)
+				.withKicker(Value.TWO)
 				.build();
 	}
 

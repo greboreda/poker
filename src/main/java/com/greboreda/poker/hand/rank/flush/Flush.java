@@ -3,10 +3,16 @@ package com.greboreda.poker.hand.rank.flush;
 import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
+import com.greboreda.poker.hand.rank.fullhouse.FullHouse;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.*;
 
 
 public class Flush implements Rank {
@@ -17,23 +23,18 @@ public class Flush implements Rank {
 	private final Value fourthKicker;
 	private final Value fifthKicker;
 
-	private Flush(Value highKicker, Value secondKicker, Value thirdKicker, Value fourthKicker, Value fifthKicker) {
-		checkAreDistinctAndNotConsecutive(highKicker, secondKicker, thirdKicker, fourthKicker, fifthKicker);
-		checkKickersOrder(highKicker, secondKicker, thirdKicker, fourthKicker, fifthKicker);
-		this.highKicker = highKicker;
-		this.secondKicker = secondKicker;
-		this.thirdKicker = thirdKicker;
-		this.fourthKicker = fourthKicker;
-		this.fifthKicker = fifthKicker;
-	}
+	private Flush(Value kicker1, Value kicker2, Value kicker3, Value kicker4, Value kicker5) {
+		checkAreDistinctAndNotConsecutive(kicker1, kicker2, kicker3, kicker4, kicker5);
 
-	private void checkKickersOrder(Value highKicker, Value secondKicker, Value thirdKicker, Value fourthKicker, Value fifthKicker) {
-		if( !highKicker.wins(secondKicker)
-				|| !secondKicker.wins(thirdKicker)
-				|| !thirdKicker.wins(fourthKicker)
-				|| !fourthKicker.wins(fifthKicker) ) {
-			throw new IllegalStateException("kickers order is not valid");
-		}
+		final List<Value> orderedKickers = Stream.of(kicker1, kicker2, kicker3, kicker4, kicker5)
+				.sorted(Comparator.comparingInt(Value::getWeight).reversed())
+				.collect(toList());
+
+		this.highKicker = orderedKickers.get(0);
+		this.secondKicker = orderedKickers.get(1);
+		this.thirdKicker = orderedKickers.get(2);
+		this.fourthKicker = orderedKickers.get(3);
+		this.fifthKicker = orderedKickers.get(4);
 	}
 
 	private void checkAreDistinctAndNotConsecutive(Value highKicker, Value secondKicker, Value thirdKicker, Value fourthKicker, Value fifthKicker) {
@@ -70,7 +71,28 @@ public class Flush implements Rank {
 
 	@Override
 	public Comparision compare(Rank another) {
-		throw new NotImplementedException("not implemented yet");
+		final Comparision rankComparision = this.getRankValue().compare(another.getRankValue());
+		if(!rankComparision.isTie()) {
+			return rankComparision;
+		}
+		final Flush anotherFlush = (Flush) another;
+		final Comparision highKickerComparision = this.getHighKicker().compare(anotherFlush.getHighKicker());
+		if(!highKickerComparision.isTie()) {
+			return highKickerComparision;
+		}
+		final Comparision secondKickerComparision = this.getSecondKicker().compare(anotherFlush.getSecondKicker());
+		if(!secondKickerComparision.isTie()) {
+			return secondKickerComparision;
+		}
+		final Comparision thirdKickerComparision = this.getThirdKicker().compare(anotherFlush.getThirdKicker());
+		if(!thirdKickerComparision.isTie()) {
+			return thirdKickerComparision;
+		}
+		final Comparision fourthKickerComparision = this.getFourthKicker().compare(anotherFlush.getFourthKicker());
+		if(!fourthKickerComparision.isTie()) {
+			return fourthKickerComparision;
+		}
+		return this.getFifthKicker().compare(anotherFlush.getFifthKicker());
 	}
 
 	public static StraightFlushBuilder create() {
@@ -80,19 +102,19 @@ public class Flush implements Rank {
 	public static class StraightFlushBuilder {
 		@FunctionalInterface
 		public interface AddSecondKicker {
-			AddThirdKicker withSecondKicker(Value value);
+			AddThirdKicker withKicker(Value value);
 		}
 		@FunctionalInterface
 		public interface AddThirdKicker {
-			AddFourthKicker withThirdKicker(Value value);
+			AddFourthKicker withKicker(Value value);
 		}
 		@FunctionalInterface
 		public interface AddFourthKicker {
-			AddFifthKicker withFourthKicker(Value value);
+			AddFifthKicker withKicker(Value value);
 		}
 		@FunctionalInterface
 		public interface AddFifthKicker {
-			Builder withFifthKicker(Value value);
+			Builder withKicker(Value value);
 		}
 		@FunctionalInterface
 		public interface Builder {
@@ -101,8 +123,8 @@ public class Flush implements Rank {
 		private StraightFlushBuilder() {
 
 		}
-		public AddSecondKicker withHighKicker(Value value) {
-			return second -> third -> fourth -> fifth -> () -> new Flush(value, second, third, fourth, fifth);
+		public AddSecondKicker withKicker(Value first) {
+			return second -> third -> fourth -> fifth -> () -> new Flush(first, second, third, fourth, fifth);
 		}
 	}
 

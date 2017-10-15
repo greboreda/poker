@@ -4,6 +4,7 @@ import com.greboreda.poker.card.Card;
 import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.Hand;
+import com.greboreda.poker.hand.HandFactory;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
@@ -16,16 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FlushCalculatorTest {
 
 	@Test
-	void when_handHasAllCardOfSameSuitNotConsecutive_then_hasFlush() {
+	void when_handHasAllCardOfSameSuitAndValuesAreNotConsecutive_then_hasFlush() {
 
 		final Suit diamonds = Suit.DIAMONDS;
-		final Card card1 = Card.create().withValue(Value.TEN).withSuit(diamonds).build();
-		final Card card2 = Card.create().withValue(Value.TWO).withSuit(diamonds).build();
-		final Card card3 = Card.create().withValue(Value.SEVEN).withSuit(diamonds).build();
-		final Card card4 = Card.create().withValue(Value.THREE).withSuit(diamonds).build();
-		final Card card5 = Card.create().withValue(Value.KING).withSuit(diamonds).build();
-
-		final Hand flushHand = new Hand(card1, card2, card3, card4, card5);
+		final Hand flushHand = HandFactory.createFlush(diamonds, Value.TEN, Value.TWO, Value.SEVEN, Value.THREE, Value.KING);
 
 		final FlushCalculator flushCalculator = new FlushCalculator();
 

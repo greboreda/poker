@@ -24,11 +24,11 @@ public class FlushCalculator implements RankCalculator<Flush> {
 				.sorted(Comparator.comparingInt(Value::getWeight).reversed())
 				.collect(toList());
 		return Optional.of(Flush.create()
-				.withHighKicker(sortedValues.get(0))
-				.withSecondKicker(sortedValues.get(1))
-				.withThirdKicker(sortedValues.get(2))
-				.withFourthKicker(sortedValues.get(3))
-				.withFifthKicker(sortedValues.get(4))
+				.withKicker(sortedValues.get(0))
+				.withKicker(sortedValues.get(1))
+				.withKicker(sortedValues.get(2))
+				.withKicker(sortedValues.get(3))
+				.withKicker(sortedValues.get(4))
 				.build());
 	}
 }
