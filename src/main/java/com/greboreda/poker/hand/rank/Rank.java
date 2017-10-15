@@ -36,8 +36,4 @@ public interface Rank {
 		}
 	}
 
-	interface RankCalculator<T extends Rank> {
-		Optional<T> calculateRank(Hand hand);
-	}
-
 }

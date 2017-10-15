@@ -3,16 +3,13 @@ package com.greboreda.poker.hand.rank.flush;
 import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
-import com.greboreda.poker.hand.rank.fullhouse.FullHouse;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 
 public class Flush implements Rank {
@@ -76,24 +73,13 @@ public class Flush implements Rank {
 			return rankComparision;
 		}
 		final Flush anotherFlush = (Flush) another;
-		final Comparision highKickerComparision = this.getHighKicker().compare(anotherFlush.getHighKicker());
-		if(!highKickerComparision.isTie()) {
-			return highKickerComparision;
-		}
-		final Comparision secondKickerComparision = this.getSecondKicker().compare(anotherFlush.getSecondKicker());
-		if(!secondKickerComparision.isTie()) {
-			return secondKickerComparision;
-		}
-		final Comparision thirdKickerComparision = this.getThirdKicker().compare(anotherFlush.getThirdKicker());
-		if(!thirdKickerComparision.isTie()) {
-			return thirdKickerComparision;
-		}
-		final Comparision fourthKickerComparision = this.getFourthKicker().compare(anotherFlush.getFourthKicker());
-		if(!fourthKickerComparision.isTie()) {
-			return fourthKickerComparision;
-		}
-		return this.getFifthKicker().compare(anotherFlush.getFifthKicker());
+		return FlushComparator.create()
+				.forFlush(this)
+				.andForAnother(anotherFlush)
+				.build()
+				.compare();
 	}
+
 
 	public static StraightFlushBuilder create() {
 		return new StraightFlushBuilder();

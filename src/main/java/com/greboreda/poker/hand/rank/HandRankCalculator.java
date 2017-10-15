@@ -1,7 +1,6 @@
 package com.greboreda.poker.hand.rank;
 
 import com.greboreda.poker.hand.Hand;
-import com.greboreda.poker.hand.rank.Rank.RankCalculator;
 import com.greboreda.poker.hand.rank.fourofakind.FourOfAKindCalculator;
 import com.greboreda.poker.hand.rank.fullhouse.FullHouseCalculator;
 import com.greboreda.poker.hand.rank.royalflush.RoyalFlushCalculator;

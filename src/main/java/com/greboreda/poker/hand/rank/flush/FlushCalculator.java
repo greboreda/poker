@@ -2,7 +2,7 @@ package com.greboreda.poker.hand.rank.flush;
 
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.Hand;
-import com.greboreda.poker.hand.rank.Rank.RankCalculator;
+import com.greboreda.poker.hand.rank.RankCalculator;
 
 import java.util.Comparator;
 import java.util.List;

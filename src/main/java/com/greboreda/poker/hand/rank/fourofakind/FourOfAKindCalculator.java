@@ -2,7 +2,7 @@ package com.greboreda.poker.hand.rank.fourofakind;
 
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.Hand;
-import com.greboreda.poker.hand.rank.Rank.RankCalculator;
+import com.greboreda.poker.hand.rank.RankCalculator;
 
 import java.util.Optional;
 import java.util.Set;

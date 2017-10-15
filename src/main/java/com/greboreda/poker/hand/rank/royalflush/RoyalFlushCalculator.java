@@ -1,7 +1,7 @@
 package com.greboreda.poker.hand.rank.royalflush;
 
 import com.greboreda.poker.hand.Hand;
-import com.greboreda.poker.hand.rank.Rank.RankCalculator;
+import com.greboreda.poker.hand.rank.RankCalculator;
 import org.apache.commons.lang3.Validate;
 
 import java.util.Optional;
