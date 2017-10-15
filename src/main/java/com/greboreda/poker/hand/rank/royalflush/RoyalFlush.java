@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class RoyalFlush implements Rank {
 
-	public static final Set<Value> mandatoryRoyalFlushValues = EnumSet.of(
+	static final Set<Value> mandatoryRoyalFlushValues = EnumSet.of(
 			Value.ACE,
 			Value.KING,
 			Value.QUEEN,
