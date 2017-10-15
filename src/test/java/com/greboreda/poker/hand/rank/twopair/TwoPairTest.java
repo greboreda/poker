@@ -5,26 +5,55 @@ import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
+import static com.greboreda.poker.hand.rank.RankFactory.createFlush;
+import static com.greboreda.poker.hand.rank.RankFactory.createFourOfAKind;
+import static com.greboreda.poker.hand.rank.RankFactory.createFullHouse;
+import static com.greboreda.poker.hand.rank.RankFactory.createHighCard;
+import static com.greboreda.poker.hand.rank.RankFactory.createOnePair;
+import static com.greboreda.poker.hand.rank.RankFactory.createRoyalFlush;
+import static com.greboreda.poker.hand.rank.RankFactory.createStraight;
+import static com.greboreda.poker.hand.rank.RankFactory.createThreeOfAKind;
+import static com.greboreda.poker.hand.rank.RankFactory.createTwoPair;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TwoPairTest {
 
-	@Test
-	void when_comparingTwoPairWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin() {
-
-		//final List<Rank> worseThanTwoPair = Arrays.asList()
-
+	@ParameterizedTest
+	@MethodSource("twoPairWins")
+	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank rankAgainstWin) {
+		final TwoPair twoPair = createTwoPair();
+		assertThat(twoPair.compare(rankAgainstWin), is(Comparision.WIN));
 	}
 
+	private static Stream<Rank> twoPairWins() {
+		return Stream.of(createOnePair(), createHighCard());
+	}
 
-	@Test
-	void when_comparingTwoPairWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose() {
-
+	@ParameterizedTest
+	@MethodSource("twoPairLooses")
+	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank rankAgainstLoose) {
+		final TwoPair twoPair = createTwoPair();
+		assertThat(twoPair.compare(rankAgainstLoose), is(Comparision.LOOSE));
+	}
+	private static Stream<Rank> twoPairLooses() {
+		return Stream.of(
+				createRoyalFlush(),
+				createFourOfAKind(),
+				createRoyalFlush(),
+				createFullHouse(),
+				createFlush(),
+				createStraight(),
+				createThreeOfAKind());
 	}
 
 	@Test
@@ -42,7 +71,7 @@ class TwoPairTest {
 				.withKicker(Value.QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), Matchers.is(Comparision.LOOSE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.LOOSE));
 	}
 
 
@@ -60,7 +89,7 @@ class TwoPairTest {
 				.withKicker(Value.QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), Matchers.is(Comparision.WIN));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.WIN));
 	}
 
 
@@ -78,7 +107,7 @@ class TwoPairTest {
 				.withKicker(Value.QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), Matchers.is(Comparision.WIN));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.WIN));
 	}
 
 
@@ -96,7 +125,7 @@ class TwoPairTest {
 				.withKicker(Value.QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), Matchers.is(Comparision.LOOSE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.LOOSE));
 	}
 
 
@@ -114,7 +143,7 @@ class TwoPairTest {
 				.withKicker(Value.QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), Matchers.is(Comparision.LOOSE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.LOOSE));
 	}
 
 	@Test
@@ -131,7 +160,7 @@ class TwoPairTest {
 				.withKicker(Value.QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), Matchers.is(Comparision.WIN));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.WIN));
 	}
 
 	@Test
@@ -148,7 +177,7 @@ class TwoPairTest {
 				.withKicker(Value.QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), Matchers.is(Comparision.TIE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.TIE));
 	}
 
 	@Test

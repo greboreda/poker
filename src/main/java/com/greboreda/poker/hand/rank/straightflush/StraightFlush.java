@@ -10,6 +10,9 @@ public class StraightFlush implements Rank {
 	private final Value high;
 
 	private StraightFlush(Value high) {
+		if(high.equals(Value.ACE)) {
+			throw new IllegalArgumentException("straight flush can not have ACE as high value");
+		}
 		this.high = high;
 	}
 

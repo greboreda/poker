@@ -4,8 +4,6 @@ import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class ThreeOfAKind implements Rank {
@@ -16,6 +14,9 @@ public class ThreeOfAKind implements Rank {
 
 	private ThreeOfAKind(Value value, Value highKicker, Value lowKicker) {
 		checkAreDifferent(value, highKicker, lowKicker);
+		if(!highKicker.wins(lowKicker)) {
+			throw new IllegalStateException("highKicker must win lowKicker");
+		}
 		this.value = value;
 		this.highKicker = highKicker;
 		this.lowKicker = lowKicker;
@@ -43,7 +44,7 @@ public class ThreeOfAKind implements Rank {
 
 	@Override
 	public RankValue getRankValue() {
-		return null;
+		return RankValue.THREE_OF_A_KIND;
 	}
 
 	@Override

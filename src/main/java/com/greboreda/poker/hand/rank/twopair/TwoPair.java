@@ -3,7 +3,6 @@ package com.greboreda.poker.hand.rank.twopair;
 import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
-import org.apache.commons.lang3.NotImplementedException;
 
 public class TwoPair implements Rank {
 
@@ -19,13 +18,10 @@ public class TwoPair implements Rank {
 	}
 
 	private void checkIsValid(Value highPair, Value lowPair, Value kicker) {
-		if(highPair.compare(lowPair).isLoose()) {
-			throw new IllegalStateException("high pair must be better than low pair");
+		if(!highPair.wins(lowPair)) {
+			throw new IllegalStateException("high pair must win low pair");
 		}
-		if(highPair.compare(lowPair).isTie()) {
-			throw new IllegalStateException("high pair must be different than low pair");
-		}
-		if(kicker.compare(highPair).isTie() || kicker.compare(lowPair).isTie()) {
+		if(kicker.equals(highPair) || kicker.equals(lowPair)) {
 			throw new IllegalStateException("kikcer must be different to highPair and lowPair");
 		}
 	}

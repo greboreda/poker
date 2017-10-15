@@ -3,7 +3,6 @@ package com.greboreda.poker.hand;
 import com.greboreda.poker.card.Card;
 import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
-import com.greboreda.poker.hand.Hand;
 
 public class HandFactory {
 

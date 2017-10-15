@@ -14,6 +14,18 @@ public interface ComparableEnum<T extends ComparableEnum> {
 		} else {
 			return Comparision.LOOSE;
 		}
-
 	}
+
+	default Boolean wins(T another) {
+		return compare(another).isWin();
+	}
+
+	default Boolean looses(T another) {
+		return compare(another).isLoose();
+	}
+
+	default Boolean ties(T another) {
+		return compare(another).isTie();
+	}
+
 }

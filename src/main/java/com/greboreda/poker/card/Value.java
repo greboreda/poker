@@ -4,6 +4,7 @@ import com.greboreda.poker.ComparableEnum;
 
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +37,9 @@ public enum Value implements ComparableEnum<Value> {
 		this.weight = weight;
 	}
 
+	public static Boolean areDistinctAndNotConsecutive(List<Value> values) {
+		return areDistinct(values) && !areConsecutive(new HashSet<>(values));
+	}
 
 	public static Boolean areDistinct(List<Value> values) {
 		return values.stream().distinct().count() == values.size();

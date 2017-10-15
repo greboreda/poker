@@ -38,12 +38,8 @@ public class FourOfAKind implements Rank {
 	@Override
 	public Comparision compare(Rank another) {
 		Validate.notNull(another);
-		final boolean anotherIsRoyalFlush = RankValue.ROYAL_FLUSH.equals(another.getRankValue());
-		final boolean anotherIsFourOfAKind = RankValue.FOUR_OF_A_KIND.equals(another.getRankValue());
-		if(anotherIsRoyalFlush) {
-			return Comparision.LOOSE;
-		} else if (!anotherIsFourOfAKind) {
-			return Comparision.WIN;
+		if(!this.getRankValue().ties(another.getRankValue())) {
+			return this.getRankValue().compare(another.getRankValue());
 		}
 		return compareWithAnotherFourOfAKind((FourOfAKind) another);
 	}

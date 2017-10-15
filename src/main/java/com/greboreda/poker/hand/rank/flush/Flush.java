@@ -20,6 +20,7 @@ public class Flush implements Rank {
 
 	private Flush(Value highKicker, Value secondKicker, Value thirdKicker, Value fourthKicker, Value fifthKicker) {
 		checkAreDistinctAndNotConsecutive(highKicker, secondKicker, thirdKicker, fourthKicker, fifthKicker);
+		checkKickersOrder(highKicker, secondKicker, thirdKicker, fourthKicker, fifthKicker);
 		this.highKicker = highKicker;
 		this.secondKicker = secondKicker;
 		this.thirdKicker = thirdKicker;
@@ -27,13 +28,19 @@ public class Flush implements Rank {
 		this.fifthKicker = fifthKicker;
 	}
 
+	private void checkKickersOrder(Value highKicker, Value secondKicker, Value thirdKicker, Value fourthKicker, Value fifthKicker) {
+		if( !highKicker.wins(secondKicker)
+				|| !secondKicker.wins(thirdKicker)
+				|| !thirdKicker.wins(fourthKicker)
+				|| !fourthKicker.wins(fifthKicker) ) {
+			throw new IllegalStateException("kickers order is not valid");
+		}
+	}
+
 	private void checkAreDistinctAndNotConsecutive(Value highKicker, Value secondKicker, Value thirdKicker, Value fourthKicker, Value fifthKicker) {
 		final List<Value> values = Arrays.asList(highKicker, secondKicker, thirdKicker, fourthKicker, fifthKicker);
-		if(!Value.areDistinct(values)) {
-			throw new IllegalStateException("all kickers must be different");
-		}
-		if(Value.areConsecutive(new HashSet<>(values))) {
-			throw new IllegalStateException("kickers can not be consecutive");
+		if(!Value.areDistinctAndNotConsecutive(values)) {
+			throw new IllegalStateException("all kickers must be different and not consecutive");
 		}
 	}
 
