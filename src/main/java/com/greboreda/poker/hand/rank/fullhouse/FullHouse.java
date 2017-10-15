@@ -35,7 +35,16 @@ public class FullHouse implements Rank {
 
 	@Override
 	public Comparision compare(Rank another) {
-		return null;
+		final Comparision rankComparision = this.getRankValue().compare(another.getRankValue());
+		if(!rankComparision.isTie()) {
+			return rankComparision;
+		}
+		final FullHouse anotherFullHouse = (FullHouse) another;
+		final Comparision valueComparision = this.getValue().compare(anotherFullHouse.getValue());
+		if(!valueComparision.isTie()) {
+			return valueComparision;
+		}
+		return this.getOver().compare(anotherFullHouse.getOver());
 	}
 
 	public static FullHouseBuilder create() {
@@ -43,7 +52,6 @@ public class FullHouse implements Rank {
 	}
 
 	public static class FullHouseBuilder {
-
 		@FunctionalInterface
 		public interface AddOver {
 			Builder over(Value value);
@@ -52,11 +60,8 @@ public class FullHouse implements Rank {
 		public interface Builder {
 			FullHouse build();
 		}
-
 		private FullHouseBuilder() {
-
 		}
-
 		public AddOver of(Value value) {
 			return over -> () -> new FullHouse(value, over);
 		}

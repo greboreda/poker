@@ -45,22 +45,20 @@ public class TwoPair implements Rank {
 
 	@Override
 	public Comparision compare(Rank another) {
-		final Comparision comparision = this.getRankValue().compare(another.getRankValue());
-		if(!comparision.isTie()) {
-			return comparision;
+		final Comparision rankComparision = this.getRankValue().compare(another.getRankValue());
+		if(!rankComparision.isTie()) {
+			return rankComparision;
 		}
 		final TwoPair anotherTwoPair = (TwoPair) another;
 		final Comparision highPairComparision = this.getHighPair().compare(anotherTwoPair.getHighPair());
 		if(!highPairComparision.isTie()) {
 			return highPairComparision;
-		} else {
-			final Comparision lowPairComparision = this.getLowPair().compare(anotherTwoPair.getLowPair());
-			if(!lowPairComparision.isTie()) {
-				return lowPairComparision;
-			} else {
-				return this.getKicker().compare(anotherTwoPair.getKicker());
-			}
 		}
+		final Comparision lowPairComparision = this.getLowPair().compare(anotherTwoPair.getLowPair());
+		if(!lowPairComparision.isTie()) {
+			return lowPairComparision;
+		}
+		return this.getKicker().compare(anotherTwoPair.getKicker());
 	}
 
 	public static TwoPairBuilder create() {

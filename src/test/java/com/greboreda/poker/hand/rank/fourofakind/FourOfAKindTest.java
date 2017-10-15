@@ -88,7 +88,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFourOfAKindIfHasSameValueButBetterKicker_then_resultIsWin() {
+	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndBetterKicker_then_resultIsWin() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.ACE)
@@ -104,7 +104,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFourOfAKindIfHasSameValueButWorseKicker_then_resultIsLoose() {
+	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndWorseKicker_then_resultIsLoose() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.ACE)
@@ -120,7 +120,7 @@ class FourOfAKindTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndKicker_then_resultIsTie() {
+	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndSameKicker_then_resultIsTie() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
 				.of(Value.ACE)
