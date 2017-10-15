@@ -1,54 +1,57 @@
 package com.greboreda.poker.card;
 
-import com.greboreda.poker.Comparision;
+import com.greboreda.poker.ComparableEnum;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
-public enum Value {
+import static java.util.stream.Collectors.toList;
 
-	ACE,
-	KING,
-	QUEEN,
-	JACK,
-	TEN,
-	NINE,
-	EIGHT,
-	SEVEN,
-	SIX,
-	FIVE,
-	FOUR,
-	THREE,
-	TWO;
+public enum Value implements ComparableEnum<Value> {
 
-	private static final Map<Value, Set<Value>> betters = new HashMap<>();
-	static {
-		betters.put(ACE, EnumSet.of(KING, QUEEN, JACK, TEN, NINE, EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(KING, EnumSet.of(QUEEN, JACK, TEN, NINE, EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(QUEEN, EnumSet.of(JACK, TEN, NINE, EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(JACK, EnumSet.of(TEN, NINE, EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(TEN, EnumSet.of(NINE, EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(NINE, EnumSet.of(EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(EIGHT, EnumSet.of(SEVEN, SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(SEVEN, EnumSet.of(SIX, FIVE, FOUR, THREE, TWO));
-		betters.put(SIX, EnumSet.of(FIVE, FOUR, THREE, TWO));
-		betters.put(FIVE, EnumSet.of(FOUR, THREE, TWO));
-		betters.put(FOUR, EnumSet.of(THREE, TWO));
-		betters.put(THREE, EnumSet.of(TWO));
-		betters.put(TWO, Collections.emptySet());
+	ACE(13),
+	KING(12),
+	QUEEN(11),
+	JACK(10),
+	TEN(9),
+	NINE(8),
+	EIGHT(7),
+	SEVEN(6),
+	SIX(5),
+	FIVE(4),
+	FOUR(3),
+	THREE(2),
+	TWO(1);
+
+	private Integer weight;
+
+	@Override
+	public Integer getWeight() {
+		return weight;
 	}
 
-	public Comparision compare(Value value) {
-		if(this.equals(value)) {
-			return Comparision.TIE;
-		} else if (betters.get(this).contains(value)) {
-			return Comparision.WIN;
-		} else {
-			return Comparision.LOOSE;
+	Value(Integer weight) {
+		this.weight = weight;
+	}
+
+
+	public static Boolean areDistinct(List<Value> values) {
+		return values.stream().distinct().count() == values.size();
+	}
+
+	public static Boolean areConsecutive(Set<Value> values) {
+		final List<Value> sorted = values.stream()
+				.sorted(Comparator.comparingInt(Value::getWeight))
+				.collect(toList());
+
+		if(sorted.containsAll(EnumSet.of(ACE, TWO, THREE, FOUR, FIVE)))	{
+			return true;
 		}
+		final Value max = sorted.stream().max(Comparator.comparingInt(Value::getWeight)).get();
+		final Value min = sorted.stream().min(Comparator.comparingInt(Value::getWeight)).get();
+		return max.getWeight() - min.getWeight() == values.size() - 1;
 	}
 
 }

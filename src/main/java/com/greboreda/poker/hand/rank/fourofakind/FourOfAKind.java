@@ -5,6 +5,8 @@ import com.greboreda.poker.Comparision;
 import com.greboreda.poker.hand.rank.Rank;
 import org.apache.commons.lang3.Validate;
 
+import java.util.Arrays;
+
 public class FourOfAKind implements Rank {
 
 	private final Value value;
@@ -13,7 +15,7 @@ public class FourOfAKind implements Rank {
 	private FourOfAKind(Value value, Value kicker) {
 		Validate.notNull(value);
 		Validate.notNull(kicker);
-		if(value.equals(kicker)) {
+		if(!Value.areDistinct(Arrays.asList(value, kicker))) {
 			throw new IllegalStateException("value and kicker must be different");
 		}
 		this.value = value;

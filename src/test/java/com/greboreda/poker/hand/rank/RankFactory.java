@@ -1,10 +1,9 @@
 package com.greboreda.poker.hand.rank;
 
-import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
-import com.greboreda.poker.hand.HandFactory;
 import com.greboreda.poker.hand.rank.fourofakind.FourOfAKind;
 import com.greboreda.poker.hand.rank.royalflush.RoyalFlush;
+import com.greboreda.poker.hand.rank.straightflush.StraightFlush;
 
 public class RankFactory {
 
@@ -12,8 +11,47 @@ public class RankFactory {
 		return new RoyalFlush();
 	}
 
-	public static FourOfAKind createFourOfAKind() {
-		return (FourOfAKind) HandFactory.createFourOfAKind(Value.ACE, Suit.DIAMONDS, Value.KING).getRank();
+	public static StraightFlush createStraightFlush() {
+		return StraightFlush.create()
+				.withHigh(Value.KING)
+				.build();
+
 	}
 
+	public static FourOfAKind createFourOfAKind() {
+		return FourOfAKind.create()
+				.of(Value.ACE)
+				.withKicker(Value.EIGHT)
+				.build();
+	}
+
+	/*
+	public static FullHouse createFullHouse() {
+
+	}
+
+	public static Flush createFlush() {
+
+	}
+
+	public static Straight createStraight() {
+
+	}
+
+	public static ThreeOfAKind createThreeOfAKind() {
+
+	}
+
+	public static TwoPair createTwoPair() {
+
+	}
+
+	public static OnePair createOnePair() {
+
+	}
+
+	public static HighCard createHighCard() {
+
+	}
+	*/
 }

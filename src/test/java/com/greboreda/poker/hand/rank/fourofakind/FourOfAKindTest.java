@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FourOfAKindTest {
 
@@ -98,6 +99,14 @@ class FourOfAKindTest {
 				.build();
 
 		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(Comparision.TIE));
+	}
+
+	@Test
+	void when_creatingFourOfAKind_then_valueAndKickerMustBeDifferent() {
+		assertThrows(IllegalStateException.class, () -> FourOfAKind.create()
+				.of(Value.ACE)
+				.withKicker(Value.ACE)
+				.build());
 	}
 
 }
