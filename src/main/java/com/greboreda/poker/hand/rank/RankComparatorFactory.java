@@ -13,19 +13,15 @@ import com.greboreda.poker.hand.rank.twopair.TwoPairComparator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toMap;
 
 class RankComparatorFactory {
 
 	private static final Map<Class<? extends Rank>,Class<? extends RankComparator>> rankComparators = new HashMap<>();
-
 	private static final Map<Class<?>,Constructor<? extends RankComparator>> constructors = new HashMap<>();
 	static {
 		rankComparators.put(FourOfAKind.class, FourOfAKindComparator.class);
@@ -33,21 +29,16 @@ class RankComparatorFactory {
 		rankComparators.put(Flush.class, FlushComparator.class);
 		rankComparators.put(ThreeOfAKind.class, ThreeOfAKindComparator.class);
 		rankComparators.put(TwoPair.class, TwoPairComparator.class);
-		initConstructorsMap();
-	}
-
-	private static void initConstructorsMap() {
-		for(Entry<Class<? extends Rank>,Class<? extends RankComparator>> entry : rankComparators.entrySet()) {
-			final Class<? extends Rank> clazz = entry.getKey();
-			final Class<? extends RankComparator> comparator = entry.getValue();
-			Constructor<? extends RankComparator> constructor;
-			try {
-				constructor = comparator.getDeclaredConstructor(clazz, clazz);
-			} catch (NoSuchMethodException e) {
-				throw new RuntimeException(e);
-			}
-			constructors.put(clazz, constructor);
-		}
+		rankComparators.entrySet().stream()
+				.collect(toMap(Entry::getKey, e -> {
+					try {
+						final Class<? extends RankComparator> rankComparator = e.getValue();
+						final Class<? extends Rank> rank = e.getKey();
+						return rankComparator.getDeclaredConstructor(rank, rank);
+					} catch (NoSuchMethodException ex) {
+						throw new RuntimeException(ex);
+					}
+				})).forEach(constructors::put);
 	}
 
 	static <R extends Rank> RankComparator create(R aRank, R anotherRank) {
