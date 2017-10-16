@@ -33,20 +33,6 @@ public class FullHouse implements Rank {
 		return RankValue.FULL_HOUSE;
 	}
 
-	@Override
-	public Comparision compare(Rank another) {
-		final Comparision rankComparision = this.getRankValue().compare(another.getRankValue());
-		if(!rankComparision.isTie()) {
-			return rankComparision;
-		}
-		final FullHouse anotherFullHouse = (FullHouse) another;
-		final Comparision valueComparision = this.getValue().compare(anotherFullHouse.getValue());
-		if(!valueComparision.isTie()) {
-			return valueComparision;
-		}
-		return this.getOver().compare(anotherFullHouse.getOver());
-	}
-
 	public static FullHouseBuilder create() {
 		return new FullHouseBuilder();
 	}

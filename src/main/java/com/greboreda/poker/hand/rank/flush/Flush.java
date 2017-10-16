@@ -1,9 +1,7 @@
 package com.greboreda.poker.hand.rank.flush;
 
-import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
-import com.greboreda.poker.hand.rank.RankComparator;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -65,18 +63,6 @@ public class Flush implements Rank {
 	@Override
 	public RankValue getRankValue() {
 		return RankValue.FLUSH;
-	}
-
-	@Override
-	public Comparision compare(Rank another) {
-		final Comparision rankComparision = this.getRankValue().compare(another.getRankValue());
-		if(!rankComparision.isTie()) {
-			return rankComparision;
-		}
-		return RankComparator.forRank(Flush.class)
-				.withRank(this)
-				.withAnotherRank((Flush) another)
-				.compare();
 	}
 
 	public static FlushBuilder create() {

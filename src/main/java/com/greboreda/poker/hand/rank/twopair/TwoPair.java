@@ -1,6 +1,5 @@
 package com.greboreda.poker.hand.rank.twopair;
 
-import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
 
@@ -41,24 +40,6 @@ public class TwoPair implements Rank {
 	@Override
 	public RankValue getRankValue() {
 		return RankValue.TWO_PAIRS;
-	}
-
-	@Override
-	public Comparision compare(Rank another) {
-		final Comparision rankComparision = this.getRankValue().compare(another.getRankValue());
-		if(!rankComparision.isTie()) {
-			return rankComparision;
-		}
-		final TwoPair anotherTwoPair = (TwoPair) another;
-		final Comparision highPairComparision = this.getHighPair().compare(anotherTwoPair.getHighPair());
-		if(!highPairComparision.isTie()) {
-			return highPairComparision;
-		}
-		final Comparision lowPairComparision = this.getLowPair().compare(anotherTwoPair.getLowPair());
-		if(!lowPairComparision.isTie()) {
-			return lowPairComparision;
-		}
-		return this.getKicker().compare(anotherTwoPair.getKicker());
 	}
 
 	public static TwoPairBuilder create() {

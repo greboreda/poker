@@ -1,17 +1,21 @@
 package com.greboreda.poker.hand.rank;
 
 import com.greboreda.poker.ComparableEnum;
-import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.Comparision;
-
-import java.util.Objects;
-import java.util.Optional;
+import org.apache.commons.lang3.Validate;
 
 public interface Rank {
 
 	RankValue getRankValue();
 
-	Comparision compare(Rank another);
+	default Comparision compare(Rank another) {
+		Validate.notNull(another);
+		final Comparision rankComparision = this.getRankValue().compare(another.getRankValue());
+		if(!rankComparision.isTie()) {
+			return rankComparision;
+		}
+		return RankComparatorFactory.create(this, another).compare();
+	}
 
 	enum RankValue implements ComparableEnum<RankValue> {
 		ROYAL_FLUSH(10),

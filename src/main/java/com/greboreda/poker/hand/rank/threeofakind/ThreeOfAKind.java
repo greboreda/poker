@@ -47,11 +47,6 @@ public class ThreeOfAKind implements Rank {
 		return RankValue.THREE_OF_A_KIND;
 	}
 
-	@Override
-	public Comparision compare(Rank another) {
-		return null;
-	}
-
 	public static ThreeOfAKindBuilder create() {
 		return new ThreeOfAKindBuilder();
 	}
