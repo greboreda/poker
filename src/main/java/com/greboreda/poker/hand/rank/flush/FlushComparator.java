@@ -4,12 +4,12 @@ import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.ComparisionPairs;
 import com.greboreda.poker.hand.rank.RankComparator;
 
-class FlushComparator implements RankComparator {
+public class FlushComparator implements RankComparator {
 
 	private final Flush aFlush;
 	private final Flush anotherFlush;
 
-	FlushComparator(Flush aFlush, Flush anotherFlush) {
+	public FlushComparator(Flush aFlush, Flush anotherFlush) {
 		this.aFlush = aFlush;
 		this.anotherFlush = anotherFlush;
 	}

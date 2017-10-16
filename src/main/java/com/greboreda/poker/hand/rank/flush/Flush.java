@@ -3,6 +3,7 @@ package com.greboreda.poker.hand.rank.flush;
 import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
+import com.greboreda.poker.hand.rank.RankComparator;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -72,8 +73,10 @@ public class Flush implements Rank {
 		if(!rankComparision.isTie()) {
 			return rankComparision;
 		}
-		final Flush anotherFlush = (Flush) another;
-		return new FlushComparator(this, anotherFlush).compare();
+		return RankComparator.forRank(Flush.class)
+				.withRank(this)
+				.withAnotherRank((Flush) another)
+				.compare();
 	}
 
 	public static FlushBuilder create() {
