@@ -2,11 +2,11 @@ package com.greboreda.poker;
 
 import java.util.Objects;
 
-public interface ComparableEnum<T extends ComparableEnum> {
+public interface ComparableEnum<T> {
 
 	Integer getWeight();
 
-	default Comparision compare(T another) {
+	default Comparision compare(ComparableEnum<T> another) {
 		if(this.getWeight() > another.getWeight()) {
 			return Comparision.WIN;
 		} else if(Objects.equals(this.getWeight(), another.getWeight())) {
@@ -16,15 +16,15 @@ public interface ComparableEnum<T extends ComparableEnum> {
 		}
 	}
 
-	default Boolean wins(T another) {
+	default Boolean wins(ComparableEnum<T> another) {
 		return compare(another).isWin();
 	}
 
-	default Boolean looses(T another) {
+	default Boolean looses(ComparableEnum<T> another) {
 		return compare(another).isLoose();
 	}
 
-	default Boolean ties(T another) {
+	default Boolean ties(ComparableEnum<T> another) {
 		return compare(another).isTie();
 	}
 

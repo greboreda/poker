@@ -73,19 +73,14 @@ public class Flush implements Rank {
 			return rankComparision;
 		}
 		final Flush anotherFlush = (Flush) another;
-		return FlushComparator.create()
-				.forFlush(this)
-				.andForAnother(anotherFlush)
-				.build()
-				.compare();
+		return new FlushComparator(this, anotherFlush).compare();
 	}
 
-
-	public static StraightFlushBuilder create() {
-		return new StraightFlushBuilder();
+	public static FlushBuilder create() {
+		return new FlushBuilder();
 	}
 
-	public static class StraightFlushBuilder {
+	public static class FlushBuilder {
 		@FunctionalInterface
 		public interface AddSecondKicker {
 			AddThirdKicker withKicker(Value value);
@@ -106,7 +101,7 @@ public class Flush implements Rank {
 		public interface Builder {
 			Flush build();
 		}
-		private StraightFlushBuilder() {
+		private FlushBuilder() {
 
 		}
 		public AddSecondKicker withKicker(Value first) {
