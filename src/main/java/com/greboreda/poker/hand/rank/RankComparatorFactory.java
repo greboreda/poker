@@ -11,47 +11,27 @@ import com.greboreda.poker.hand.rank.threeofakind.ThreeOfAKindComparator;
 import com.greboreda.poker.hand.rank.twopair.TwoPair;
 import com.greboreda.poker.hand.rank.twopair.TwoPairComparator;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import static java.util.stream.Collectors.toMap;
+import java.util.function.BiFunction;
 
 class RankComparatorFactory {
 
-	private static final Map<Class<? extends Rank>,Class<? extends RankComparator>> rankComparators = new HashMap<>();
-	private static final Map<Class<?>,Constructor<? extends RankComparator>> constructors = new HashMap<>();
+	private static Map<Class<? extends Rank>, BiFunction<Rank,Rank,RankComparator>> map = new HashMap<>();
 	static {
-		rankComparators.put(FourOfAKind.class, FourOfAKindComparator.class);
-		rankComparators.put(FullHouse.class, FullHouseComparator.class);
-		rankComparators.put(Flush.class, FlushComparator.class);
-		rankComparators.put(ThreeOfAKind.class, ThreeOfAKindComparator.class);
-		rankComparators.put(TwoPair.class, TwoPairComparator.class);
-		rankComparators.entrySet().stream()
-				.collect(toMap(Entry::getKey, e -> {
-					try {
-						final Class<? extends RankComparator> rankComparator = e.getValue();
-						final Class<? extends Rank> rank = e.getKey();
-						return rankComparator.getDeclaredConstructor(rank, rank);
-					} catch (NoSuchMethodException ex) {
-						throw new RuntimeException(ex);
-					}
-				})).forEach(constructors::put);
+		map.put(FourOfAKind.class, (r1, r2) -> new FourOfAKindComparator((FourOfAKind) r1, (FourOfAKind) r2));
+		map.put(FullHouse.class, (r1, r2) -> new FullHouseComparator((FullHouse) r1, (FullHouse) r2));
+		map.put(Flush.class, (r1, r2) -> new FlushComparator((Flush) r1, (Flush) r2));
+		map.put(ThreeOfAKind.class, (r1, r2) -> new ThreeOfAKindComparator((ThreeOfAKind) r1, (ThreeOfAKind) r2));
+		map.put(TwoPair.class, (r1, r2) -> new TwoPairComparator((TwoPair) r1, (TwoPair) r2));
 	}
 
 	static <R extends Rank> RankComparator create(R aRank, R anotherRank) {
 		final Class<? extends Rank> clazz = aRank.getClass();
-		if(!constructors.containsKey(clazz)) {
+		if(!map.containsKey(clazz)) {
 			throw new RuntimeException("Not found constructor for " + clazz.getCanonicalName());
 		}
-		final Constructor<? extends RankComparator> constructor = constructors.get(clazz);
-		try {
-			return constructor.newInstance(aRank, anotherRank);
-		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-			throw new RuntimeException(e);
-		}
+		return map.get(clazz).apply(aRank, anotherRank);
 	}
 
 }

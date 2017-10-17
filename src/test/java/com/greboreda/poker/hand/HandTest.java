@@ -5,11 +5,6 @@ import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank.RankValue;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -38,21 +33,6 @@ class HandTest {
 				() -> assertThat(hand.getRank().getRankValue(), is(RankValue.ROYAL_FLUSH))
 		);
 	}
-
-/*
-	@ParameterizedTest
-	@MethodSource("")
-	void foo() {
-
-	}
-
-	private static Stream<Arguments> a() {
-		return Stream.of(
-				Arguments.of()
-		);
-	}
-*/
-
 
 	@Test
 	void when_notAllCardsAreDifferentEachOther_then_throwError() {
