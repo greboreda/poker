@@ -39,7 +39,7 @@ public class TwoPair implements Rank {
 
 	@Override
 	public RankValue getRankValue() {
-		return RankValue.TWO_PAIRS;
+		return RankValue.TWO_PAIR;
 	}
 
 	public static TwoPairBuilder create() {

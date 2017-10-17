@@ -14,7 +14,7 @@ public interface Rank {
 		if(!rankComparision.isTie()) {
 			return rankComparision;
 		}
-		return RankComparatorFactory.create(this, another).compare();
+		return RankComparatorFactory.create(this.getClass(),this, another).compare();
 	}
 
 	enum RankValue implements ComparableEnum<RankValue> {
@@ -25,7 +25,7 @@ public interface Rank {
 		FLUSH(6),
 		STRAIGHT(5),
 		THREE_OF_A_KIND(4),
-		TWO_PAIRS(3),
+		TWO_PAIR(3),
 		ONE_PAIR(2),
 		HIGH_CARD(1);
 

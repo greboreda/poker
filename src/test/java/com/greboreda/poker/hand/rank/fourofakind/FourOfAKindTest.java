@@ -1,8 +1,12 @@
 package com.greboreda.poker.hand.rank.fourofakind;
 
 import com.greboreda.poker.Comparision;
+import com.greboreda.poker.card.Card;
+import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
+import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.Rank;
+import com.greboreda.poker.hand.rank.Rank.RankValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,9 +25,30 @@ import static com.greboreda.poker.hand.rank.RankRepository.createThreeOfAKind;
 import static com.greboreda.poker.hand.rank.RankRepository.createTwoPair;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FourOfAKindTest {
+
+	@Test
+	void when_handHasFourCardsOfSameValue_then_hasFourOfAKind() {
+
+		final Card quad1 = Card.create().withValue(Value.ACE).withSuit(Suit.HEARTS).build();
+		final Card quad2 = Card.create().withValue(Value.ACE).withSuit(Suit.CLUBS).build();
+		final Card quad3 = Card.create().withValue(Value.ACE).withSuit(Suit.DIAMONDS).build();
+		final Card quad4 = Card.create().withValue(Value.ACE).withSuit(Suit.SPADES).build();
+		final Card kicker = Card.create().withValue(Value.KING).withSuit(Suit.DIAMONDS).build();
+		final Hand fourOfAKindHand = new Hand(quad1, quad2, quad3, quad4, kicker);
+		final Rank rank = fourOfAKindHand.getRank();
+		
+		assertThat(rank.getRankValue(), is(RankValue.FOUR_OF_A_KIND));
+		final FourOfAKind fourOfAKind = (FourOfAKind) rank;
+		assertAll("four of a kind is valid",
+				() -> assertThat(fourOfAKind.getValue(), is(Value.ACE)),
+				() -> assertThat(fourOfAKind.getKicker(), is(Value.KING))
+		);
+	}
 
 
 	@ParameterizedTest

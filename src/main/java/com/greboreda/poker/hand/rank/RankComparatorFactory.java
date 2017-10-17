@@ -29,8 +29,12 @@ class RankComparatorFactory {
 		map.put(TwoPair.class, (r1, r2) -> new TwoPairComparator((TwoPair) r1, (TwoPair) r2));
 	}
 
-	static <R extends Rank> RankComparator create(R aRank, R anotherRank) {
-		final Class<? extends Rank> clazz = aRank.getClass();
+	static <R extends Rank> RankComparator create(Class<? extends Rank> clazz, R aRank, R anotherRank) {
+		final boolean aRankIsOfValidType = aRank.getClass().equals(clazz);
+		final boolean anotherRankIsOfValidType = anotherRank.getClass().equals(clazz);
+		if(!aRankIsOfValidType || !anotherRankIsOfValidType) {
+			throw new IllegalArgumentException("ranks must be instance of clazz");
+		}
 		if(!map.containsKey(clazz)) {
 			throw new RuntimeException("Not found constructor for " + clazz.getCanonicalName());
 		}

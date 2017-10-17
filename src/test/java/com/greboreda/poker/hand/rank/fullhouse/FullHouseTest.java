@@ -1,8 +1,12 @@
 package com.greboreda.poker.hand.rank.fullhouse;
 
 import com.greboreda.poker.Comparision;
+import com.greboreda.poker.card.Card;
+import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
+import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.Rank;
+import com.greboreda.poker.hand.rank.Rank.RankValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,9 +25,31 @@ import static com.greboreda.poker.hand.rank.RankRepository.createThreeOfAKind;
 import static com.greboreda.poker.hand.rank.RankRepository.createTwoPair;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FullHouseTest {
+
+	@Test
+	void when_handHasThreeCardOfSameValueAndTwoOfAnotherSameValue_then_hasFullHouse() {
+
+		final Card trio1 = Card.create().withValue(Value.EIGHT).withSuit(Suit.DIAMONDS).build();
+		final Card trio2 = Card.create().withValue(Value.EIGHT).withSuit(Suit.CLUBS).build();
+		final Card trio3 = Card.create().withValue(Value.EIGHT).withSuit(Suit.SPADES).build();
+		final Card pair1 = Card.create().withValue(Value.FIVE).withSuit(Suit.HEARTS).build();
+		final Card pair2 = Card.create().withValue(Value.FIVE).withSuit(Suit.SPADES).build();
+		final Hand fullHouseHand = new Hand(trio1, trio2, trio3, pair1, pair2);
+		final Rank rank = fullHouseHand.getRank();
+
+		assertThat(rank.getRankValue(), is(RankValue.FULL_HOUSE));
+		final FullHouse fullHouse = (FullHouse) rank;
+		assertAll("full house is valid",
+				() -> assertThat(fullHouse.getValue(), is(Value.EIGHT)),
+				() -> assertThat(fullHouse.getOver(), is(Value.FIVE))
+		);
+	}
+
 
 	@ParameterizedTest
 	@MethodSource("fullHouseWins")

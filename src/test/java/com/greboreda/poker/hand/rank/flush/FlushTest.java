@@ -1,8 +1,13 @@
 package com.greboreda.poker.hand.rank.flush;
 
 import com.greboreda.poker.Comparision;
+import com.greboreda.poker.card.Card;
+import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
+import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.Rank;
+import com.greboreda.poker.hand.rank.Rank.RankValue;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,9 +28,33 @@ import static com.greboreda.poker.hand.rank.RankRepository.createThreeOfAKind;
 import static com.greboreda.poker.hand.rank.RankRepository.createTwoPair;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FlushTest {
+
+	@Test
+	void when_handHasAllCardOfSameSuitAndValuesAreNotConsecutive_then_hasFlush() {
+
+		final Card card1 = Card.create().withValue(Value.TEN).withSuit(Suit.DIAMONDS).build();
+		final Card card2 = Card.create().withValue(Value.TWO).withSuit(Suit.DIAMONDS).build();
+		final Card card3 = Card.create().withValue(Value.SEVEN).withSuit(Suit.DIAMONDS).build();
+		final Card card4 = Card.create().withValue(Value.THREE).withSuit(Suit.DIAMONDS).build();
+		final Card card5 = Card.create().withValue(Value.KING).withSuit(Suit.DIAMONDS).build();
+		final Hand flushHand = new Hand(card1, card2, card3, card4, card5);
+		final Rank rank = flushHand.getRank();
+
+		assertThat(rank.getRankValue(), is(RankValue.FLUSH));
+		final Flush flush = (Flush) rank;
+		assertAll("flush is valid",
+				() -> assertThat(flush.getHighKicker(), Matchers.is(Value.KING)),
+				() -> assertThat(flush.getSecondKicker(), Matchers.is(Value.TEN)),
+				() -> assertThat(flush.getThirdKicker(), Matchers.is(Value.SEVEN)),
+				() -> assertThat(flush.getFourthKicker(), Matchers.is(Value.THREE)),
+				() -> assertThat(flush.getFifthKicker(), Matchers.is(Value.TWO))
+		);
+	}
+
 
 	@ParameterizedTest
 	@MethodSource("consecutives")
