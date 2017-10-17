@@ -1,6 +1,5 @@
 package com.greboreda.poker.hand.rank.threeofakind;
 
-import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
 

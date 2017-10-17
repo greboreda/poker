@@ -5,11 +5,8 @@ import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.RankCalculator;
 import org.apache.commons.lang3.Validate;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 public class FlushCalculator implements RankCalculator<Flush> {
 
@@ -24,16 +21,15 @@ public class FlushCalculator implements RankCalculator<Flush> {
 		if (!hasUniqueSuit || !allCardsHaveDistinctValue || areConsecutive) {
 			return Optional.empty();
 		}
-		final List<Value> sortedValues = hand.getCardsValues().stream()
-				.sorted(Comparator.comparingInt(Value::getWeight).reversed())
-				.collect(toList());
+		final Iterator<Value> iterator = hand.getCardsValues().stream()
+				.iterator();
 
 		return Optional.of(Flush.create()
-				.withKicker(sortedValues.get(0))
-				.withKicker(sortedValues.get(1))
-				.withKicker(sortedValues.get(2))
-				.withKicker(sortedValues.get(3))
-				.withKicker(sortedValues.get(4))
+				.withKicker(iterator.next())
+				.withKicker(iterator.next())
+				.withKicker(iterator.next())
+				.withKicker(iterator.next())
+				.withKicker(iterator.next())
 				.build());
 	}
 }
