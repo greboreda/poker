@@ -15,10 +15,12 @@ import java.util.Set;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 public class Hand {
 
+	public static final Integer NUMBER_OF_CARDS = 5;
 
 	private final Set<Card> cards;
 	private final Rank rank;
@@ -27,7 +29,7 @@ public class Hand {
 		final Card[] params = {card1, card2, card3, card4, card5};
 		Validate.noNullElements(params);
 		cards = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(params)));
-		if (!allCardsAreDifferent()) {
+		if (!allCardsHaveDistinctValue()) {
 			throw new IllegalStateException("cards must be different each other");
 		}
 		rank = RankFactory.retrieveRank(this);
@@ -59,8 +61,13 @@ public class Hand {
 				.collect(toSet());
 	}
 
-	private boolean allCardsAreDifferent() {
-		return cards.size() == 5;
+	public Boolean allCardsHaveDistinctValue() {
+		return cards.size() == NUMBER_OF_CARDS;
 	}
 
+	public Boolean cardsHaveConsecutiveValue() {
+		return Value.areConsecutive(cards.stream()
+				.map(Card::getValue)
+				.collect(toList()));
+	}
 }

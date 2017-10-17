@@ -18,10 +18,9 @@ public class StraightFlushCalculator implements RankCalculator<StraightFlush> {
 		Validate.notNull(hand);
 		final boolean allCardsAreOfSameSuit = hand.getDistinctSuits().size() == 1;
 		final List<Value> values = new ArrayList<>(hand.getCardsValues());
-		final boolean areDistinct = Value.areDistinct(values);
-		final boolean areConsecutive = Value.areConsecutive(hand.getCardsValues());
+		final boolean areConsecutive = Value.areDistinctAndConsecutive(values);
 		final boolean containsAllRoyalFlushValues = values.containsAll(RoyalFlushCalculator.mandatoryRoyalFlushValues);
-		if(allCardsAreOfSameSuit && areDistinct && areConsecutive && !containsAllRoyalFlushValues) {
+		if(allCardsAreOfSameSuit && areConsecutive && !containsAllRoyalFlushValues) {
 			final Value high = values.stream()
 					.filter(v -> !Value.ACE.equals(v))
 					.max(Comparator.comparingInt(Value::getWeight))

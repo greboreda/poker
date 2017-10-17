@@ -16,15 +16,18 @@ public class FlushCalculator implements RankCalculator<Flush> {
 	@Override
 	public Optional<Flush> calculateRank(Hand hand) {
 		Validate.notNull(hand);
-		if(hand.getDistinctSuits().size() != 1) {
-			return Optional.empty();
-		}
-		if(Value.areConsecutive(hand.getCardsValues())) {
+
+		final boolean hasUniqueSuit = hand.getDistinctSuits().size() == 1;
+		final boolean allCardsHaveDistinctValue = hand.allCardsHaveDistinctValue();
+		final boolean areConsecutive = hand.cardsHaveConsecutiveValue();
+
+		if (!hasUniqueSuit || !allCardsHaveDistinctValue || areConsecutive) {
 			return Optional.empty();
 		}
 		final List<Value> sortedValues = hand.getCardsValues().stream()
 				.sorted(Comparator.comparingInt(Value::getWeight).reversed())
 				.collect(toList());
+
 		return Optional.of(Flush.create()
 				.withKicker(sortedValues.get(0))
 				.withKicker(sortedValues.get(1))

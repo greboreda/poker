@@ -14,12 +14,12 @@ public class FourOfAKindCalculator implements RankCalculator<FourOfAKind> {
 	public Optional<FourOfAKind> calculateRank(Hand hand) {
 		Validate.notNull(hand);
 		final Set<Value> repeatedFourTimes = hand.findValuesRepeated(4);
-		final Set<Value> onlyOneTime = hand.findValuesRepeated(1);
-		if(repeatedFourTimes.size() != 1 || onlyOneTime.size() != 1) {
+		final Set<Value> repeatedOneTime = hand.findValuesRepeated(1);
+		if(repeatedFourTimes.size() != 1 || repeatedOneTime.size() != 1) {
 			return Optional.empty();
 		}
 		final Value value = repeatedFourTimes.iterator().next();
-		final Value of = onlyOneTime.iterator().next();
+		final Value of = repeatedOneTime.iterator().next();
 
 		return Optional.of(FourOfAKind.create()
 				.of(value)

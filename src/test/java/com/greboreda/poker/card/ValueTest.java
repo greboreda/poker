@@ -3,8 +3,9 @@ package com.greboreda.poker.card;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static com.greboreda.poker.card.Value.ACE;
@@ -24,31 +25,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ValueTest {
 
-	@ParameterizedTest(name = "run consecutive #{index} with [{arguments}]")
+	@ParameterizedTest(name = "run consecutive #{index} with {arguments}")
 	@MethodSource("consecutivesProvider")
-	void test_consecutive(Set<Value> values) {
+	void test_consecutive(List<Value> values) {
 		assertTrue(Value.areConsecutive(values));
 	}
 
-	@ParameterizedTest(name = "run not consecutive #{index} with [{arguments}]")
+	@ParameterizedTest(name = "run not consecutive #{index} with {arguments}")
 	@MethodSource("notConsecutivesProvider")
-	void test_notConsecutive(Set<Value> values) {
+	void test_notConsecutive(List<Value> values) {
 		assertFalse(Value.areConsecutive(values));
 	}
 
-	static Stream<Set<Value>> consecutivesProvider() {
+	static Stream<List<Value>> consecutivesProvider() {
 		return Stream.of(
-				EnumSet.of(ACE, THREE, TWO, FOUR, FIVE),
-				EnumSet.of(TWO, THREE, FOUR, FIVE, SIX),
-				EnumSet.of(QUEEN, ACE, TEN, KING, JACK)
+				new ArrayList<>(EnumSet.of(ACE, THREE, TWO, FOUR, FIVE)),
+				new ArrayList<>(EnumSet.of(TWO, THREE, FOUR, FIVE, SIX)),
+				new ArrayList<>(EnumSet.of(QUEEN, ACE, TEN, KING, JACK)),
+				new ArrayList<>(EnumSet.of(TWO, TWO))
 		);
 	}
 
-	static Stream<Set<Value>> notConsecutivesProvider() {
+	static Stream<List<Value>> notConsecutivesProvider() {
 		return Stream.of(
-				EnumSet.of(ACE, THREE, TWO, FOUR, SIX),
-				EnumSet.of(KING, QUEEN, ACE, TWO, THREE),
-				EnumSet.of(TWO, FOUR, SIX, EIGHT, TEN)
+				new ArrayList<>(EnumSet.of(ACE, THREE, TWO, FOUR, SIX)),
+				new ArrayList<>(EnumSet.of(KING, QUEEN, ACE, TWO, THREE)),
+				new ArrayList<>(EnumSet.of(TWO, FOUR, SIX, EIGHT, TEN))
 		);
 	}
 

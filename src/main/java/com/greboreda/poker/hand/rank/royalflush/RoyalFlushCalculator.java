@@ -23,11 +23,10 @@ public class RoyalFlushCalculator implements RankCalculator<RoyalFlush> {
 		Validate.notNull(hand);
 		final boolean containsMandatoryValues = hand.getCardsValues().containsAll(mandatoryRoyalFlushValues);
 		final boolean allCardsHaveSameSuit = hand.getDistinctSuits().size() == 1;
-		if(containsMandatoryValues && allCardsHaveSameSuit) {
-			return Optional.of(new RoyalFlush());
-		} else {
+		if (!containsMandatoryValues || !allCardsHaveSameSuit) {
 			return Optional.empty();
 		}
+		return Optional.of(new RoyalFlush());
 	}
 
 
