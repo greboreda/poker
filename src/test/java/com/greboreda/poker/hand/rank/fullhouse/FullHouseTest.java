@@ -52,13 +52,13 @@ class FullHouseTest {
 
 
 	@ParameterizedTest
-	@MethodSource("fullHouseWins")
-	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank rankAgainstWin) {
+	@MethodSource("retrieveRanksWorseThanFullHouse")
+	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final FullHouse fullHouse = createFullHouse();
-		assertThat(fullHouse.compare(rankAgainstWin), is(Comparision.WIN));
+		assertThat(fullHouse.compare(worseRank), is(Comparision.WIN));
 	}
 
-	private static Stream<Rank> fullHouseWins() {
+	private static Stream<Rank> retrieveRanksWorseThanFullHouse() {
 		return Stream.of(
 				createHighCard(),
 				createOnePair(),
@@ -70,12 +70,12 @@ class FullHouseTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("fullHouseLooses")
-	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank rankAgainstLoose) {
+	@MethodSource("retrieveRanksBetterThanFullHouse")
+	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
 		final FullHouse fullHouse = createFullHouse();
-		assertThat(fullHouse.compare(rankAgainstLoose), is(Comparision.LOOSE));
+		assertThat(fullHouse.compare(betterRank), is(Comparision.LOOSE));
 	}
-	private static Stream<Rank> fullHouseLooses() {
+	private static Stream<Rank> retrieveRanksBetterThanFullHouse() {
 		return Stream.of(
 				createRoyalFlush(),
 				createStraightFlush(),

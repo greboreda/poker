@@ -46,13 +46,12 @@ public enum Value implements ComparableEnum<Value> {
 	}
 
 	public static Boolean areConsecutive(Set<Value> values) {
+		if(values.containsAll(EnumSet.of(ACE, TWO, THREE, FOUR, FIVE)))	{
+			return true;
+		}
 		final List<Value> sorted = values.stream()
 				.sorted(Comparator.comparingInt(Value::getWeight))
 				.collect(toList());
-
-		if(sorted.containsAll(EnumSet.of(ACE, TWO, THREE, FOUR, FIVE)))	{
-			return true;
-		}
 		final Value max = sorted.stream().max(Comparator.comparingInt(Value::getWeight)).get();
 		final Value min = sorted.stream().min(Comparator.comparingInt(Value::getWeight)).get();
 		return max.getWeight() - min.getWeight() == values.size() - 1;

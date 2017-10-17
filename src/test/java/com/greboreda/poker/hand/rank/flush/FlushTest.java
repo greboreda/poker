@@ -102,13 +102,13 @@ class FlushTest {
 
 
 	@ParameterizedTest
-	@MethodSource("flushWins")
-	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank rankAgainstWin) {
+	@MethodSource("retrieveRanksWorseThanFlush")
+	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final Flush flush = createFlush();
-		assertThat(flush.compare(rankAgainstWin), is(Comparision.WIN));
+		assertThat(flush.compare(worseRank), is(Comparision.WIN));
 	}
 
-	private static Stream<Rank> flushWins() {
+	private static Stream<Rank> retrieveRanksWorseThanFlush() {
 		return Stream.of(
 				createHighCard(),
 				createOnePair(),
@@ -119,12 +119,12 @@ class FlushTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("flushLooses")
-	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank rankAgainstLoose) {
+	@MethodSource("retrieveRanksBetterThanFlush")
+	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
 		final Flush flush = createFlush();
-		assertThat(flush.compare(rankAgainstLoose), is(Comparision.LOOSE));
+		assertThat(flush.compare(betterRank), is(Comparision.LOOSE));
 	}
-	private static Stream<Rank> flushLooses() {
+	private static Stream<Rank> retrieveRanksBetterThanFlush() {
 		return Stream.of(
 				createRoyalFlush(),
 				createStraightFlush(),

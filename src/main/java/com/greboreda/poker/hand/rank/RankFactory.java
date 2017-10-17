@@ -5,6 +5,7 @@ import com.greboreda.poker.hand.rank.flush.FlushCalculator;
 import com.greboreda.poker.hand.rank.fourofakind.FourOfAKindCalculator;
 import com.greboreda.poker.hand.rank.fullhouse.FullHouseCalculator;
 import com.greboreda.poker.hand.rank.royalflush.RoyalFlushCalculator;
+import com.greboreda.poker.hand.rank.straight.StraightCalculator;
 import com.greboreda.poker.hand.rank.straightflush.StraightFlushCalculator;
 import com.greboreda.poker.hand.rank.twopair.TwoPairCalculator;
 
@@ -21,6 +22,7 @@ public class RankFactory {
 		rankCalculators.add(new FourOfAKindCalculator());
 		rankCalculators.add(new FullHouseCalculator());
 		rankCalculators.add(new FlushCalculator());
+		rankCalculators.add(new StraightCalculator());
 		rankCalculators.add(new TwoPairCalculator());
 	}
 

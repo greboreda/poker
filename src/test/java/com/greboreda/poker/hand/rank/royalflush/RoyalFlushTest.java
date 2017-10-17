@@ -51,13 +51,13 @@ class RoyalFlushTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("royalFlushWinnings")
-	void when_comparingRoyalFlushWithAnotherNotRoyalFlush_then_matchResultIsWin(Rank rankAgainstWin) {
+	@MethodSource("retrieveRanksWorseThanRoyalFlush")
+	void when_comparingRoyalFlushWithAnotherNotRoyalFlush_then_matchResultIsWin(Rank worseRank) {
 		final RoyalFlush royalFlush = new RoyalFlush();
-		assertThat(royalFlush.compare(rankAgainstWin), is(Comparision.WIN));
+		assertThat(royalFlush.compare(worseRank), is(Comparision.WIN));
 	}
 
-	private static Stream<Rank> royalFlushWinnings() {
+	private static Stream<Rank> retrieveRanksWorseThanRoyalFlush() {
 		return Stream.of(
 				createStraightFlush(),
 				createFourOfAKind(),

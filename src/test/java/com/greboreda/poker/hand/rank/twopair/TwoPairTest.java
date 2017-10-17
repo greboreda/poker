@@ -55,23 +55,23 @@ class TwoPairTest {
 
 
 	@ParameterizedTest
-	@MethodSource("twoPairWins")
-	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank rankAgainstWin) {
+	@MethodSource("retrieveRanksWorseThanTwoPair")
+	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final TwoPair twoPair = createTwoPair();
-		assertThat(twoPair.compare(rankAgainstWin), is(Comparision.WIN));
+		assertThat(twoPair.compare(worseRank), is(Comparision.WIN));
 	}
 
-	private static Stream<Rank> twoPairWins() {
+	private static Stream<Rank> retrieveRanksWorseThanTwoPair() {
 		return Stream.of(createOnePair(), createHighCard());
 	}
 
 	@ParameterizedTest
-	@MethodSource("twoPairLooses")
-	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank rankAgainstLoose) {
+	@MethodSource("retrieveRanksBetterThanTwoPair")
+	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
 		final TwoPair twoPair = createTwoPair();
-		assertThat(twoPair.compare(rankAgainstLoose), is(Comparision.LOOSE));
+		assertThat(twoPair.compare(betterRank), is(Comparision.LOOSE));
 	}
-	private static Stream<Rank> twoPairLooses() {
+	private static Stream<Rank> retrieveRanksBetterThanTwoPair() {
 		return Stream.of(
 				createRoyalFlush(),
 				createFourOfAKind(),

@@ -52,13 +52,13 @@ class FourOfAKindTest {
 
 
 	@ParameterizedTest
-	@MethodSource("fourOfAKindWins")
-	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank rankAgainstWin) {
+	@MethodSource("retrieveRanksWorseThanFourOfAKind")
+	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final FourOfAKind fourOfAKind = createFourOfAKind();
-		assertThat(fourOfAKind.compare(rankAgainstWin), is(Comparision.WIN));
+		assertThat(fourOfAKind.compare(worseRank), is(Comparision.WIN));
 	}
 
-	private static Stream<Rank> fourOfAKindWins() {
+	private static Stream<Rank> retrieveRanksWorseThanFourOfAKind() {
 		return Stream.of(
 				createHighCard(),
 				createOnePair(),
@@ -71,12 +71,12 @@ class FourOfAKindTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("fourOfAKindLooses")
-	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank rankAgainstLoose) {
+	@MethodSource("retrieveRanksBetterThanFourOfAKind")
+	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
 		final FourOfAKind fourOfAKind = createFourOfAKind();
-		assertThat(fourOfAKind.compare(rankAgainstLoose), is(Comparision.LOOSE));
+		assertThat(fourOfAKind.compare(betterRank), is(Comparision.LOOSE));
 	}
-	private static Stream<Rank> fourOfAKindLooses() {
+	private static Stream<Rank> retrieveRanksBetterThanFourOfAKind() {
 		return Stream.of(createRoyalFlush(), createStraightFlush());
 	}
 

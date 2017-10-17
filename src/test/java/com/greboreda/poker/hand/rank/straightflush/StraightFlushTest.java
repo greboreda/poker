@@ -76,13 +76,13 @@ class StraightFlushTest {
 	}
 
 	@ParameterizedTest
-	@MethodSource("straightFlushWins")
-	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank rankAgainstWin) {
+	@MethodSource("retrieveRanksWorseThanStraightFlush")
+	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final StraightFlush straightFlush = createStraightFlush();
-		assertThat(straightFlush.compare(rankAgainstWin), is(Comparision.WIN));
+		assertThat(straightFlush.compare(worseRank), is(Comparision.WIN));
 	}
 
-	private static Stream<Rank> straightFlushWins() {
+	private static Stream<Rank> retrieveRanksWorseThanStraightFlush() {
 		return Stream.of(
 				createHighCard(),
 				createOnePair(),

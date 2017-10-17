@@ -8,6 +8,8 @@ import com.greboreda.poker.hand.rank.fullhouse.FullHouse;
 import com.greboreda.poker.hand.rank.fullhouse.FullHouseComparator;
 import com.greboreda.poker.hand.rank.royalflush.RoyalFlush;
 import com.greboreda.poker.hand.rank.royalflush.RoyalFlushComparator;
+import com.greboreda.poker.hand.rank.straight.Straight;
+import com.greboreda.poker.hand.rank.straight.StraightComparator;
 import com.greboreda.poker.hand.rank.straightflush.StraightFlush;
 import com.greboreda.poker.hand.rank.straightflush.StraightFlushComparator;
 import com.greboreda.poker.hand.rank.threeofakind.ThreeOfAKind;
@@ -28,6 +30,7 @@ class RankComparatorFactory {
 		map.put(FourOfAKind.class, (r1, r2) -> new FourOfAKindComparator((FourOfAKind) r1, (FourOfAKind) r2));
 		map.put(FullHouse.class, (r1, r2) -> new FullHouseComparator((FullHouse) r1, (FullHouse) r2));
 		map.put(Flush.class, (r1, r2) -> new FlushComparator((Flush) r1, (Flush) r2));
+		map.put(Straight.class, (r1, r2) -> new StraightComparator((Straight) r1, (Straight) r2));
 		map.put(ThreeOfAKind.class, (r1, r2) -> new ThreeOfAKindComparator((ThreeOfAKind) r1, (ThreeOfAKind) r2));
 		map.put(TwoPair.class, (r1, r2) -> new TwoPairComparator((TwoPair) r1, (TwoPair) r2));
 	}
