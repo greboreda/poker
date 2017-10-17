@@ -11,8 +11,8 @@ public class FourOfAKindCalculator implements RankCalculator<FourOfAKind> {
 
 	@Override
 	public Optional<FourOfAKind> calculateRank(Hand hand) {
-		final Set<Value> repeatedFourTimes = hand.findValueRepeated(4);
-		final Set<Value> onlyOneTime = hand.findValueRepeated(1);
+		final Set<Value> repeatedFourTimes = hand.findValuesRepeated(4);
+		final Set<Value> onlyOneTime = hand.findValuesRepeated(1);
 		if(repeatedFourTimes.size() != 1 || onlyOneTime.size() != 1) {
 			return Optional.empty();
 		}

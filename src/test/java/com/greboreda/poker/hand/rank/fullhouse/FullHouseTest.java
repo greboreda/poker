@@ -9,16 +9,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.greboreda.poker.hand.rank.RankFactory.createFlush;
-import static com.greboreda.poker.hand.rank.RankFactory.createFourOfAKind;
-import static com.greboreda.poker.hand.rank.RankFactory.createFullHouse;
-import static com.greboreda.poker.hand.rank.RankFactory.createHighCard;
-import static com.greboreda.poker.hand.rank.RankFactory.createOnePair;
-import static com.greboreda.poker.hand.rank.RankFactory.createRoyalFlush;
-import static com.greboreda.poker.hand.rank.RankFactory.createStraight;
-import static com.greboreda.poker.hand.rank.RankFactory.createStraightFlush;
-import static com.greboreda.poker.hand.rank.RankFactory.createThreeOfAKind;
-import static com.greboreda.poker.hand.rank.RankFactory.createTwoPair;
+import static com.greboreda.poker.hand.rank.RankRepository.createFlush;
+import static com.greboreda.poker.hand.rank.RankRepository.createFourOfAKind;
+import static com.greboreda.poker.hand.rank.RankRepository.createFullHouse;
+import static com.greboreda.poker.hand.rank.RankRepository.createHighCard;
+import static com.greboreda.poker.hand.rank.RankRepository.createOnePair;
+import static com.greboreda.poker.hand.rank.RankRepository.createRoyalFlush;
+import static com.greboreda.poker.hand.rank.RankRepository.createStraight;
+import static com.greboreda.poker.hand.rank.RankRepository.createStraightFlush;
+import static com.greboreda.poker.hand.rank.RankRepository.createThreeOfAKind;
+import static com.greboreda.poker.hand.rank.RankRepository.createTwoPair;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;

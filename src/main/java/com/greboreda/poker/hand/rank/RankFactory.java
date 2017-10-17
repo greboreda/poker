@@ -10,7 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class RankCalculatorFactory {
+public class RankFactory {
 
 	private static final Set<RankCalculator<? extends Rank>> rankCalculators = new LinkedHashSet<>();
 	static {
@@ -20,7 +20,7 @@ public class RankCalculatorFactory {
 		rankCalculators.add(new FlushCalculator());
 	}
 
-	public static Rank calculateRank(Hand hand) {
+	public static Rank retrieveRank(Hand hand) {
 		return rankCalculators.stream()
 				.map(c -> c.calculateRank(hand))
 				.filter(Optional::isPresent)

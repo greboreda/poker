@@ -11,8 +11,8 @@ public class FullHouseCalculator implements RankCalculator<FullHouse> {
 
 	@Override
 	public Optional<FullHouse> calculateRank(Hand hand) {
-		final Set<Value> repeatedThreeTimes = hand.findValueRepeated(3);
-		final Set<Value> repeatedTwoTimes = hand.findValueRepeated(2);
+		final Set<Value> repeatedThreeTimes = hand.findValuesRepeated(3);
+		final Set<Value> repeatedTwoTimes = hand.findValuesRepeated(2);
 		if(repeatedThreeTimes.size() != 1 || repeatedTwoTimes.size() != 1) {
 			return Optional.empty();
 		}

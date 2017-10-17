@@ -12,7 +12,7 @@ import com.greboreda.poker.hand.rank.straightflush.StraightFlush;
 import com.greboreda.poker.hand.rank.threeofakind.ThreeOfAKind;
 import com.greboreda.poker.hand.rank.twopair.TwoPair;
 
-public class RankFactory {
+public class RankRepository {
 
 	public static RoyalFlush createRoyalFlush() {
 		return new RoyalFlush();

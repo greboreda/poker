@@ -2,15 +2,13 @@ package com.greboreda.poker.hand.rank.royalflush;
 
 import com.greboreda.poker.Comparision;
 import com.greboreda.poker.hand.rank.Rank;
-import com.greboreda.poker.hand.rank.RankFactory;
-import com.greboreda.poker.hand.rank.fourofakind.FourOfAKind;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.greboreda.poker.hand.rank.RankFactory.*;
+import static com.greboreda.poker.hand.rank.RankRepository.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

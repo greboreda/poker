@@ -27,7 +27,7 @@ class HandTest {
 		final Hand hand = new Hand(card1, card2, card3, card4, card5);
 		assertAll("is valid hand",
 				() -> assertThat(hand.getDistinctSuits(), hasItem(Suit.HEARTS)),
-				() -> assertThat(hand.findValueRepeated(2), empty())
+				() -> assertThat(hand.findValuesRepeated(2), empty())
 		);
 		assertAll("hand rank",
 				() -> assertThat(hand.getRank().getRankValue(), is(RankValue.ROYAL_FLUSH))
