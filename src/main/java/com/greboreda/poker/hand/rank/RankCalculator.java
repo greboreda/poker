@@ -4,6 +4,6 @@ import com.greboreda.poker.hand.Hand;
 
 import java.util.Optional;
 
-public interface RankCalculator<T extends Rank> {
-	Optional<T> calculateRank(Hand hand);
+public interface RankCalculator<R extends Rank> {
+	Optional<R> calculateRank(Hand hand);
 }

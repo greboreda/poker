@@ -4,20 +4,13 @@ import com.greboreda.poker.card.Card;
 import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
-import com.greboreda.poker.hand.rank.RankCalculator;
-import com.greboreda.poker.hand.rank.flush.FlushCalculator;
-import com.greboreda.poker.hand.rank.fourofakind.FourOfAKindCalculator;
-import com.greboreda.poker.hand.rank.fullhouse.FullHouseCalculator;
-import com.greboreda.poker.hand.rank.royalflush.RoyalFlushCalculator;
+import com.greboreda.poker.hand.rank.RankCalculatorFactory;
 import org.apache.commons.lang3.Validate;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.counting;
@@ -26,13 +19,6 @@ import static java.util.stream.Collectors.toSet;
 
 public class Hand {
 
-	private static final List<RankCalculator> rankCalculators = new LinkedList<>();
-	static {
-		rankCalculators.add(new RoyalFlushCalculator());
-		rankCalculators.add(new FourOfAKindCalculator());
-		rankCalculators.add(new FullHouseCalculator());
-		rankCalculators.add(new FlushCalculator());
-	}
 
 	private final Set<Card> cards;
 	private final Rank rank;
@@ -44,7 +30,7 @@ public class Hand {
 		if (!allCardsAreDifferent()) {
 			throw new IllegalStateException("cards must be different each other");
 		}
-		rank = calculateRank();
+		rank = RankCalculatorFactory.calculateRank(this);
 	}
 
 	public Rank getRank() {
@@ -77,14 +63,5 @@ public class Hand {
 		return cards.size() == 5;
 	}
 
-	private Rank calculateRank() {
-		for(RankCalculator calculator : rankCalculators) {
-			final Optional<Rank> rank = calculator.calculateRank(this);
-			if(rank.isPresent()) {
-				return rank.get();
-			}
-		}
-		return null;
-	}
 
 }
