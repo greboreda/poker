@@ -3,6 +3,7 @@ package com.greboreda.poker.hand.rank.twopair;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.RankCalculator;
+import org.apache.commons.lang3.Validate;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -12,6 +13,7 @@ public class TwoPairCalculator implements RankCalculator<TwoPair> {
 
 	@Override
 	public Optional<TwoPair> calculateRank(Hand hand) {
+		Validate.notNull(hand);
 		final Set<Value> valuesRepeatedTwoTimes = hand.findValuesRepeated(2);
 		final boolean hasTwoValuesRepeatedTwoTimes = valuesRepeatedTwoTimes.size() == 2;
 		if(!hasTwoValuesRepeatedTwoTimes) {

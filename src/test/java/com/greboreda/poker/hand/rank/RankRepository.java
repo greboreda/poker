@@ -31,7 +31,6 @@ public class RankRepository {
 				.build();
 	}
 
-
 	public static FullHouse createFullHouse() {
 		return FullHouse.create()
 				.of(Value.ACE)

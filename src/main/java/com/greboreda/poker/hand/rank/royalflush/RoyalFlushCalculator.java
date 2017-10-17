@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class RoyalFlushCalculator implements RankCalculator<RoyalFlush> {
 
-	private static final EnumSet<Value> mandatoryRoyalFlushValues = EnumSet.of(
+	public static final EnumSet<Value> mandatoryRoyalFlushValues = EnumSet.of(
 			Value.ACE,
 			Value.KING,
 			Value.QUEEN,

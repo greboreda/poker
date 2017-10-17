@@ -84,7 +84,7 @@ class FullHouseTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFulHouseIfHasBetterValue_then_resultIsWin() {
+	void when_comparingWithAnotherFullHouseIfHasBetterValue_then_resultIsWin() {
 
 		final FullHouse aFullHouse = FullHouse.create()
 				.of(Value.ACE)
@@ -100,7 +100,7 @@ class FullHouseTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFulHouseIfHasWorseValue_then_resultIsLoose() {
+	void when_comparingWithAnotherFullHouseIfHasWorseValue_then_resultIsLoose() {
 
 		final FullHouse aFullHouse = FullHouse.create()
 				.of(Value.TEN)
@@ -116,7 +116,7 @@ class FullHouseTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFulHouseIfHasSameValueAndBetterOver_then_resultIsWin() {
+	void when_comparingWithAnotherFullHouseIfHasSameValueAndBetterOver_then_resultIsWin() {
 
 		final FullHouse aFullHouse = FullHouse.create()
 				.of(Value.TEN)
@@ -132,7 +132,7 @@ class FullHouseTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFulHouseIfHasSameValueAndWorseOver_then_resultIsLoose() {
+	void when_comparingWithAnotherFullHouseIfHasSameValueAndWorseOver_then_resultIsLoose() {
 
 		final FullHouse aFullHouse = FullHouse.create()
 				.of(Value.TEN)
@@ -148,7 +148,7 @@ class FullHouseTest {
 	}
 
 	@Test
-	void when_comparingWithAnotherFulHouseIfHasSameValueAndSameOver_then_resultIsTie() {
+	void when_comparingWithAnotherFullHouseIfHasSameValueAndSameOver_then_resultIsTie() {
 
 		final FullHouse aFullHouse = FullHouse.create()
 				.of(Value.TEN)
