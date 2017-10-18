@@ -1,22 +1,27 @@
 package com.greboreda.poker.hand.rank.twopair;
 
-import com.greboreda.poker.Comparision;
-import com.greboreda.poker.card.Card;
-import com.greboreda.poker.card.Suit;
-import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.Rank;
-import com.greboreda.poker.hand.rank.Rank.RankValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static com.greboreda.poker.Comparision.LOOSE;
+import static com.greboreda.poker.Comparision.TIE;
+import static com.greboreda.poker.Comparision.WIN;
+import static com.greboreda.poker.card.CardBuilder.CardCreator.a;
 import static com.greboreda.poker.card.Value.ACE;
+import static com.greboreda.poker.card.Value.FOUR;
 import static com.greboreda.poker.card.Value.JACK;
+import static com.greboreda.poker.card.Value.KING;
+import static com.greboreda.poker.card.Value.QUEEN;
 import static com.greboreda.poker.card.Value.SIX;
 import static com.greboreda.poker.card.Value.TEN;
+import static com.greboreda.poker.card.Value.THREE;
+import static com.greboreda.poker.card.Value.TWO;
+import static com.greboreda.poker.hand.rank.Rank.RankValue.TWO_PAIR;
 import static com.greboreda.poker.hand.rank.RankRepository.createFlush;
 import static com.greboreda.poker.hand.rank.RankRepository.createFourOfAKind;
 import static com.greboreda.poker.hand.rank.RankRepository.createFullHouse;
@@ -36,15 +41,16 @@ class TwoPairTest {
 	@Test
 	void when_handHasTwoCardsRepeatedTwoTimes_then_hasTwoPairRank() {
 
-		final Card highPair1 = Card.create().withValue(TEN).withSuit(Suit.DIAMONDS).build();
-		final Card highPair2 = Card.create().withValue(TEN).withSuit(Suit.SPADES).build();
-		final Card lowPair1 = Card.create().withValue(SIX).withSuit(Suit.DIAMONDS).build();
-		final Card lowPair2 = Card.create().withValue(SIX).withSuit(Suit.HEARTS).build();
-		final Card kickerVal = Card.create().withValue(JACK).withSuit(Suit.CLUBS).build();
-		final Hand twoPairHand = new Hand(highPair1, highPair2, lowPair1, lowPair2, kickerVal);
+		final Hand twoPairHand = new Hand(
+				a().TEN.of.DIAMONDS,
+				a().TEN.of.SPADES,
+				a().SIX.of.DIAMONDS,
+				a().SIX.of.HEARTS,
+				a().JACK.of.CLUBS
+		);
 		final Rank rank = twoPairHand.getRank();
 
-		assertThat(rank.getRankValue(), is(RankValue.TWO_PAIR));
+		assertThat(rank.getRankValue(), is(TWO_PAIR));
 		final TwoPair twoPair = (TwoPair) rank;
 		assertAll("two pais is valid",
 				() -> assertThat(twoPair.getHighPair(), is(TEN)),
@@ -58,7 +64,7 @@ class TwoPairTest {
 	@MethodSource("retrieveRanksWorseThanTwoPair")
 	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final TwoPair twoPair = createTwoPair();
-		assertThat(twoPair.compare(worseRank), is(Comparision.WIN));
+		assertThat(twoPair.compare(worseRank), is(WIN));
 	}
 
 	private static Stream<Rank> retrieveRanksWorseThanTwoPair() {
@@ -69,7 +75,7 @@ class TwoPairTest {
 	@MethodSource("retrieveRanksBetterThanTwoPair")
 	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
 		final TwoPair twoPair = createTwoPair();
-		assertThat(twoPair.compare(betterRank), is(Comparision.LOOSE));
+		assertThat(twoPair.compare(betterRank), is(LOOSE));
 	}
 	private static Stream<Rank> retrieveRanksBetterThanTwoPair() {
 		return Stream.of(
@@ -86,36 +92,36 @@ class TwoPairTest {
 	void when_comparingWithAnotherTwoPairIfHasSameHighPairAndSameLowPairButWorseKicker_then_resultIsLoose() {
 
 		final TwoPair aTwoPair = TwoPair.create()
-				.withHighPair(Value.FOUR)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.TWO)
+				.withHighPair(FOUR)
+				.withLowPair(THREE)
+				.withKicker(TWO)
 				.build();
 
 		final TwoPair anotherTwoPair = TwoPair.create()
-				.withHighPair(Value.FOUR)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.QUEEN)
+				.withHighPair(FOUR)
+				.withLowPair(THREE)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.LOOSE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(LOOSE));
 	}
 
 
 	@Test
 	void when_comparingWithAnotherTwoPairIfHasSameHighPairAndSameLowPairButBetterKicker_then_resultIsWin() {
 		final TwoPair aTwoPair = TwoPair.create()
-				.withHighPair(Value.FOUR)
-				.withLowPair(Value.THREE)
+				.withHighPair(FOUR)
+				.withLowPair(THREE)
 				.withKicker(ACE)
 				.build();
 
 		final TwoPair anotherTwoPair = TwoPair.create()
-				.withHighPair(Value.FOUR)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.QUEEN)
+				.withHighPair(FOUR)
+				.withLowPair(THREE)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.WIN));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(WIN));
 	}
 
 
@@ -123,94 +129,94 @@ class TwoPairTest {
 	void when_comparingWithAnotherTwoPairIfHasSameHighPairButBetterLowPair_then_resultIsWin() {
 		final TwoPair aTwoPair = TwoPair.create()
 				.withHighPair(ACE)
-				.withLowPair(Value.KING)
-				.withKicker(Value.QUEEN)
+				.withLowPair(KING)
+				.withKicker(QUEEN)
 				.build();
 
 		final TwoPair anotherTwoPair = TwoPair.create()
 				.withHighPair(ACE)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.QUEEN)
+				.withLowPair(THREE)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.WIN));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(WIN));
 	}
 
 
 	@Test
 	void when_comparingWithAnotherTwoPairIfHasSameHighPairButWorseLowPair_then_resultIsLoose() {
 		final TwoPair aTwoPair = TwoPair.create()
-				.withHighPair(Value.KING)
-				.withLowPair(Value.TWO)
-				.withKicker(Value.QUEEN)
+				.withHighPair(KING)
+				.withLowPair(TWO)
+				.withKicker(QUEEN)
 				.build();
 
 		final TwoPair anotherTwoPair = TwoPair.create()
-				.withHighPair(Value.KING)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.QUEEN)
+				.withHighPair(KING)
+				.withLowPair(THREE)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.LOOSE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(LOOSE));
 	}
 
 
 	@Test
 	void when_comparingWithAnotherTwoPairIfHasWorseHighPair_then_resultIsLoose() {
 		final TwoPair aTwoPair = TwoPair.create()
-				.withHighPair(Value.THREE)
-				.withLowPair(Value.TWO)
-				.withKicker(Value.QUEEN)
+				.withHighPair(THREE)
+				.withLowPair(TWO)
+				.withKicker(QUEEN)
 				.build();
 
 		final TwoPair anotherTwoPair = TwoPair.create()
-				.withHighPair(Value.TEN)
-				.withLowPair(Value.TWO)
-				.withKicker(Value.QUEEN)
+				.withHighPair(TEN)
+				.withLowPair(TWO)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.LOOSE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(LOOSE));
 	}
 
 	@Test
 	void when_comparingWithAnotherTwoPairIfHasBetterHighPair_then_resultIsWin() {
 		final TwoPair aTwoPair = TwoPair.create()
 				.withHighPair(ACE)
-				.withLowPair(Value.KING)
-				.withKicker(Value.QUEEN)
+				.withLowPair(KING)
+				.withKicker(QUEEN)
 				.build();
 
 		final TwoPair anotherTwoPair = TwoPair.create()
-				.withHighPair(Value.TEN)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.QUEEN)
+				.withHighPair(TEN)
+				.withLowPair(THREE)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.WIN));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(WIN));
 	}
 
 	@Test
 	void when_comparingWithAnotherTwoPairIfHasSameHighPairAndLowPairAndKicker_then_resultIsTie() {
 		final TwoPair aTwoPair = TwoPair.create()
 				.withHighPair(ACE)
-				.withLowPair(Value.KING)
-				.withKicker(Value.QUEEN)
+				.withLowPair(KING)
+				.withKicker(QUEEN)
 				.build();
 
 		final TwoPair anotherTwoPair = TwoPair.create()
 				.withHighPair(ACE)
-				.withLowPair(Value.KING)
-				.withKicker(Value.QUEEN)
+				.withLowPair(KING)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aTwoPair.compare(anotherTwoPair), is(Comparision.TIE));
+		assertThat(aTwoPair.compare(anotherTwoPair), is(TIE));
 	}
 
 	@Test
 	void when_creatingTwoPair_then_highPairMustBeDifferentThanLowPair() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()
-				.withHighPair(Value.TWO)
-				.withLowPair(Value.TWO)
+				.withHighPair(TWO)
+				.withLowPair(TWO)
 				.withKicker(ACE)
 				.build());
 	}
@@ -218,8 +224,8 @@ class TwoPairTest {
 	@Test
 	void when_creatingTwoPair_then_highPairMustBeBetterThanLowPair() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()
-				.withHighPair(Value.TWO)
-				.withLowPair(Value.THREE)
+				.withHighPair(TWO)
+				.withLowPair(THREE)
 				.withKicker(ACE)
 				.build());
 	}
@@ -227,9 +233,9 @@ class TwoPairTest {
 	@Test
 	void when_creatingTwoPair_then_highPairMustBeDifferentThanKicker() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()
-				.withHighPair(Value.TWO)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.TWO)
+				.withHighPair(TWO)
+				.withLowPair(THREE)
+				.withKicker(TWO)
 				.build());
 	}
 
@@ -237,8 +243,8 @@ class TwoPairTest {
 	void when_creatingTwoPair_then_lowPairMustBeDifferentThanKicker() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()
 				.withHighPair(ACE)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.THREE)
+				.withLowPair(THREE)
+				.withKicker(THREE)
 				.build());
 	}
 

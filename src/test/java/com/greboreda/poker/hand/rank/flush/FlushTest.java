@@ -1,13 +1,8 @@
 package com.greboreda.poker.hand.rank.flush;
 
-import com.greboreda.poker.Comparision;
-import com.greboreda.poker.card.Card;
-import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.Rank;
-import com.greboreda.poker.hand.rank.Rank.RankValue;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,7 +10,24 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.greboreda.poker.card.Value.*;
+import static com.greboreda.poker.Comparision.LOOSE;
+import static com.greboreda.poker.Comparision.TIE;
+import static com.greboreda.poker.Comparision.WIN;
+import static com.greboreda.poker.card.CardBuilder.CardCreator.a;
+import static com.greboreda.poker.card.Value.ACE;
+import static com.greboreda.poker.card.Value.EIGHT;
+import static com.greboreda.poker.card.Value.FIVE;
+import static com.greboreda.poker.card.Value.FOUR;
+import static com.greboreda.poker.card.Value.JACK;
+import static com.greboreda.poker.card.Value.KING;
+import static com.greboreda.poker.card.Value.NINE;
+import static com.greboreda.poker.card.Value.QUEEN;
+import static com.greboreda.poker.card.Value.SEVEN;
+import static com.greboreda.poker.card.Value.SIX;
+import static com.greboreda.poker.card.Value.TEN;
+import static com.greboreda.poker.card.Value.THREE;
+import static com.greboreda.poker.card.Value.TWO;
+import static com.greboreda.poker.hand.rank.Rank.RankValue.FLUSH;
 import static com.greboreda.poker.hand.rank.RankRepository.createFlush;
 import static com.greboreda.poker.hand.rank.RankRepository.createFourOfAKind;
 import static com.greboreda.poker.hand.rank.RankRepository.createFullHouse;
@@ -36,22 +48,23 @@ class FlushTest {
 	@Test
 	void when_handHasAllCardOfSameSuitAndValuesAreNotConsecutive_then_hasFlush() {
 
-		final Card card1 = Card.create().withValue(Value.TEN).withSuit(Suit.DIAMONDS).build();
-		final Card card2 = Card.create().withValue(Value.TWO).withSuit(Suit.DIAMONDS).build();
-		final Card card3 = Card.create().withValue(Value.SEVEN).withSuit(Suit.DIAMONDS).build();
-		final Card card4 = Card.create().withValue(Value.THREE).withSuit(Suit.DIAMONDS).build();
-		final Card card5 = Card.create().withValue(Value.KING).withSuit(Suit.DIAMONDS).build();
-		final Hand flushHand = new Hand(card1, card2, card3, card4, card5);
+		final Hand flushHand = new Hand(
+				a().TEN.of.DIAMONDS,
+				a().TWO.of.DIAMONDS,
+				a().SEVEN.of.DIAMONDS,
+				a().THREE.of.DIAMONDS,
+				a().KING.of.DIAMONDS
+		);
 		final Rank rank = flushHand.getRank();
 
-		assertThat(rank.getRankValue(), is(RankValue.FLUSH));
+		assertThat(rank.getRankValue(), is(FLUSH));
 		final Flush flush = (Flush) rank;
 		assertAll("flush is valid",
-				() -> assertThat(flush.getHighKicker(), Matchers.is(Value.KING)),
-				() -> assertThat(flush.getSecondKicker(), Matchers.is(Value.TEN)),
-				() -> assertThat(flush.getThirdKicker(), Matchers.is(Value.SEVEN)),
-				() -> assertThat(flush.getFourthKicker(), Matchers.is(Value.THREE)),
-				() -> assertThat(flush.getFifthKicker(), Matchers.is(Value.TWO))
+				() -> assertThat(flush.getHighKicker(), is(KING)),
+				() -> assertThat(flush.getSecondKicker(), is(TEN)),
+				() -> assertThat(flush.getThirdKicker(), is(SEVEN)),
+				() -> assertThat(flush.getFourthKicker(), is(THREE)),
+				() -> assertThat(flush.getFifthKicker(), is(TWO))
 		);
 	}
 
@@ -105,7 +118,7 @@ class FlushTest {
 	@MethodSource("retrieveRanksWorseThanFlush")
 	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final Flush flush = createFlush();
-		assertThat(flush.compare(worseRank), is(Comparision.WIN));
+		assertThat(flush.compare(worseRank), is(WIN));
 	}
 
 	private static Stream<Rank> retrieveRanksWorseThanFlush() {
@@ -122,7 +135,7 @@ class FlushTest {
 	@MethodSource("retrieveRanksBetterThanFlush")
 	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
 		final Flush flush = createFlush();
-		assertThat(flush.compare(betterRank), is(Comparision.LOOSE));
+		assertThat(flush.compare(betterRank), is(LOOSE));
 	}
 	private static Stream<Rank> retrieveRanksBetterThanFlush() {
 		return Stream.of(
@@ -152,7 +165,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.WIN));
+		assertThat(aFlush.compare(anotherFlush), is(WIN));
 	}
 
 	@Test
@@ -174,7 +187,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.LOOSE));
+		assertThat(aFlush.compare(anotherFlush), is(LOOSE));
 	}
 
 	@Test
@@ -196,7 +209,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.WIN));
+		assertThat(aFlush.compare(anotherFlush), is(WIN));
 	}
 
 	@Test
@@ -218,7 +231,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.LOOSE));
+		assertThat(aFlush.compare(anotherFlush), is(LOOSE));
 	}
 
 	@Test
@@ -240,7 +253,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.WIN));
+		assertThat(aFlush.compare(anotherFlush), is(WIN));
 
 	}
 
@@ -263,7 +276,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.LOOSE));
+		assertThat(aFlush.compare(anotherFlush), is(LOOSE));
 
 	}
 
@@ -286,7 +299,7 @@ class FlushTest {
 				.withKicker(TWO)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.WIN));
+		assertThat(aFlush.compare(anotherFlush), is(WIN));
 
 	}
 
@@ -309,7 +322,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.LOOSE));
+		assertThat(aFlush.compare(anotherFlush), is(LOOSE));
 
 	}
 
@@ -332,7 +345,7 @@ class FlushTest {
 				.withKicker(TWO)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.WIN));
+		assertThat(aFlush.compare(anotherFlush), is(WIN));
 
 	}
 
@@ -355,7 +368,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.LOOSE));
+		assertThat(aFlush.compare(anotherFlush), is(LOOSE));
 
 	}
 
@@ -378,7 +391,7 @@ class FlushTest {
 				.withKicker(SIX)
 				.build();
 
-		assertThat(aFlush.compare(anotherFlush), is(Comparision.TIE));
+		assertThat(aFlush.compare(anotherFlush), is(TIE));
 
 	}
 }

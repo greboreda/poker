@@ -1,7 +1,6 @@
 package com.greboreda.poker.hand.rank.straightflush;
 
 
-import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Card;
 import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
@@ -17,6 +16,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static com.greboreda.poker.Comparision.LOOSE;
+import static com.greboreda.poker.Comparision.TIE;
+import static com.greboreda.poker.Comparision.WIN;
+import static com.greboreda.poker.card.Suit.CLUBS;
 import static com.greboreda.poker.card.Value.ACE;
 import static com.greboreda.poker.card.Value.EIGHT;
 import static com.greboreda.poker.card.Value.FIVE;
@@ -61,17 +64,17 @@ class StraightFlushTest {
 
 	private static Stream<Arguments> straightFlushes() {
 		return Stream.of(
-				Arguments.of(createStraightFlushHand(Suit.CLUBS, SIX, EIGHT, NINE, SEVEN, TEN), TEN),
-				Arguments.of(createStraightFlushHand(Suit.CLUBS, ACE, TWO, THREE, FOUR, FIVE), FIVE)
+				Arguments.of(createStraightFlushHand(CLUBS, SIX, EIGHT, NINE, SEVEN, TEN), TEN),
+				Arguments.of(createStraightFlushHand(CLUBS, ACE, TWO, THREE, FOUR, FIVE), FIVE)
 		);
 	}
 
 	private static Hand createStraightFlushHand(Suit suit, Value value1, Value value2, Value value3, Value value4, Value value5) {
-		final Card card1 = Card.create().withValue(value1).withSuit(suit).build();
-		final Card card2 = Card.create().withValue(value2).withSuit(suit).build();
-		final Card card3 = Card.create().withValue(value3).withSuit(suit).build();
-		final Card card4 = Card.create().withValue(value4).withSuit(suit).build();
-		final Card card5 = Card.create().withValue(value5).withSuit(suit).build();
+		final Card card1 = new Card(value1, suit);
+		final Card card2 = new Card(value2, suit);
+		final Card card3 = new Card(value3, suit);
+		final Card card4 = new Card(value4, suit);
+		final Card card5 = new Card(value5, suit);
 		return new Hand(card1, card2, card3, card4, card5);
 	}
 
@@ -79,7 +82,7 @@ class StraightFlushTest {
 	@MethodSource("retrieveRanksWorseThanStraightFlush")
 	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final StraightFlush straightFlush = createStraightFlush();
-		assertThat(straightFlush.compare(worseRank), is(Comparision.WIN));
+		assertThat(straightFlush.compare(worseRank), is(WIN));
 	}
 
 	private static Stream<Rank> retrieveRanksWorseThanStraightFlush() {
@@ -99,7 +102,7 @@ class StraightFlushTest {
 	void when_comparingWithRoyalFlush_then_resultIsLoose() {
 		final StraightFlush straightFlush = createStraightFlush();
 		final RoyalFlush royalFlush = RankRepository.createRoyalFlush();
-		assertThat(straightFlush.compare(royalFlush), is(Comparision.LOOSE));
+		assertThat(straightFlush.compare(royalFlush), is(LOOSE));
 	}
 
 	@Test
@@ -113,7 +116,7 @@ class StraightFlushTest {
 				.withHigh(QUEEN)
 				.build();
 
-		assertThat(aStraightFlush.compare(anotherStraightFlush), is(Comparision.WIN));
+		assertThat(aStraightFlush.compare(anotherStraightFlush), is(WIN));
 	}
 
 	@Test
@@ -126,7 +129,7 @@ class StraightFlushTest {
 				.withHigh(QUEEN)
 				.build();
 
-		assertThat(aStraightFlush.compare(anotherStraightFlush), is(Comparision.LOOSE));
+		assertThat(aStraightFlush.compare(anotherStraightFlush), is(LOOSE));
 	}
 
 	@Test
@@ -139,7 +142,7 @@ class StraightFlushTest {
 				.withHigh(KING)
 				.build();
 
-		assertThat(aStraightFlush.compare(anotherStraightFlush), is(Comparision.TIE));
+		assertThat(aStraightFlush.compare(anotherStraightFlush), is(TIE));
 	}
 
 	@Test

@@ -1,18 +1,22 @@
 package com.greboreda.poker.hand.rank.fourofakind;
 
-import com.greboreda.poker.Comparision;
-import com.greboreda.poker.card.Card;
-import com.greboreda.poker.card.Suit;
-import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.Hand;
 import com.greboreda.poker.hand.rank.Rank;
-import com.greboreda.poker.hand.rank.Rank.RankValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static com.greboreda.poker.Comparision.LOOSE;
+import static com.greboreda.poker.Comparision.TIE;
+import static com.greboreda.poker.Comparision.WIN;
+import static com.greboreda.poker.card.CardBuilder.CardCreator.a;
+import static com.greboreda.poker.card.Value.ACE;
+import static com.greboreda.poker.card.Value.KING;
+import static com.greboreda.poker.card.Value.QUEEN;
+import static com.greboreda.poker.card.Value.TEN;
+import static com.greboreda.poker.hand.rank.Rank.RankValue.FOUR_OF_A_KIND;
 import static com.greboreda.poker.hand.rank.RankRepository.createFlush;
 import static com.greboreda.poker.hand.rank.RankRepository.createFourOfAKind;
 import static com.greboreda.poker.hand.rank.RankRepository.createFullHouse;
@@ -27,26 +31,26 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FourOfAKindTest {
 
 	@Test
 	void when_handHasFourCardsOfSameValue_then_hasFourOfAKind() {
 
-		final Card quad1 = Card.create().withValue(Value.ACE).withSuit(Suit.HEARTS).build();
-		final Card quad2 = Card.create().withValue(Value.ACE).withSuit(Suit.CLUBS).build();
-		final Card quad3 = Card.create().withValue(Value.ACE).withSuit(Suit.DIAMONDS).build();
-		final Card quad4 = Card.create().withValue(Value.ACE).withSuit(Suit.SPADES).build();
-		final Card kicker = Card.create().withValue(Value.KING).withSuit(Suit.DIAMONDS).build();
-		final Hand fourOfAKindHand = new Hand(quad1, quad2, quad3, quad4, kicker);
+		final Hand fourOfAKindHand = new Hand(
+				a().ACE.of.HEARTS,
+				a().ACE.of.CLUBS,
+				a().ACE.of.DIAMONDS,
+				a().ACE.of.SPADES,
+				a().KING.of.DIAMONDS
+		);
 		final Rank rank = fourOfAKindHand.getRank();
 		
-		assertThat(rank.getRankValue(), is(RankValue.FOUR_OF_A_KIND));
+		assertThat(rank.getRankValue(), is(FOUR_OF_A_KIND));
 		final FourOfAKind fourOfAKind = (FourOfAKind) rank;
 		assertAll("four of a kind is valid",
-				() -> assertThat(fourOfAKind.getValue(), is(Value.ACE)),
-				() -> assertThat(fourOfAKind.getKicker(), is(Value.KING))
+				() -> assertThat(fourOfAKind.getValue(), is(ACE)),
+				() -> assertThat(fourOfAKind.getKicker(), is(KING))
 		);
 	}
 
@@ -55,7 +59,7 @@ class FourOfAKindTest {
 	@MethodSource("retrieveRanksWorseThanFourOfAKind")
 	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
 		final FourOfAKind fourOfAKind = createFourOfAKind();
-		assertThat(fourOfAKind.compare(worseRank), is(Comparision.WIN));
+		assertThat(fourOfAKind.compare(worseRank), is(WIN));
 	}
 
 	private static Stream<Rank> retrieveRanksWorseThanFourOfAKind() {
@@ -74,7 +78,7 @@ class FourOfAKindTest {
 	@MethodSource("retrieveRanksBetterThanFourOfAKind")
 	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
 		final FourOfAKind fourOfAKind = createFourOfAKind();
-		assertThat(fourOfAKind.compare(betterRank), is(Comparision.LOOSE));
+		assertThat(fourOfAKind.compare(betterRank), is(LOOSE));
 	}
 	private static Stream<Rank> retrieveRanksBetterThanFourOfAKind() {
 		return Stream.of(createRoyalFlush(), createStraightFlush());
@@ -84,87 +88,87 @@ class FourOfAKindTest {
 	void when_comparingWithAnotherFourOfAKindIfHasBetterValue_then_resultIsWin() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.KING)
+				.of(ACE)
+				.withKicker(KING)
 				.build();
 
 		final FourOfAKind anotherFourOfAKind = FourOfAKind.create()
-				.of(Value.QUEEN)
-				.withKicker(Value.KING)
+				.of(QUEEN)
+				.withKicker(KING)
 				.build();
 
-		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(Comparision.WIN));
+		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(WIN));
 	}
 
 	@Test
 	void when_comparingWithAnotherFourOfAKindIfHasWorseValue_then_resultIsLoose() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
-				.of(Value.TEN)
-				.withKicker(Value.KING)
+				.of(TEN)
+				.withKicker(KING)
 				.build();
 
 		final FourOfAKind anotherFourOfAKind = FourOfAKind.create()
-				.of(Value.QUEEN)
-				.withKicker(Value.KING)
+				.of(QUEEN)
+				.withKicker(KING)
 				.build();
 
-		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(Comparision.LOOSE));
+		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(LOOSE));
 	}
 
 	@Test
 	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndBetterKicker_then_resultIsWin() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.KING)
+				.of(ACE)
+				.withKicker(KING)
 				.build();
 
 		final FourOfAKind anotherFourOfAKind = FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.QUEEN)
+				.of(ACE)
+				.withKicker(QUEEN)
 				.build();
 
-		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(Comparision.WIN));
+		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(WIN));
 	}
 
 	@Test
 	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndWorseKicker_then_resultIsLoose() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.QUEEN)
+				.of(ACE)
+				.withKicker(QUEEN)
 				.build();
 
 		final FourOfAKind anotherFourOfAKind = FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.KING)
+				.of(ACE)
+				.withKicker(KING)
 				.build();
 
-		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(Comparision.LOOSE));
+		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(LOOSE));
 	}
 
 	@Test
 	void when_comparingWithAnotherFourOfAKindIfHasSameValueAndSameKicker_then_resultIsTie() {
 
 		final FourOfAKind aFourOfAKind = FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.KING)
+				.of(ACE)
+				.withKicker(KING)
 				.build();
 
 		final FourOfAKind anotherFourOfAKind = FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.KING)
+				.of(ACE)
+				.withKicker(KING)
 				.build();
 
-		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(Comparision.TIE));
+		assertThat(aFourOfAKind.compare(anotherFourOfAKind), is(TIE));
 	}
 
 	@Test
 	void when_creatingFourOfAKind_then_valueAndKickerMustBeDifferent() {
 		assertThrows(IllegalStateException.class, () -> FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.ACE)
+				.of(ACE)
+				.withKicker(ACE)
 				.build());
 	}
 

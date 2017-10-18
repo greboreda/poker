@@ -1,11 +1,10 @@
 package com.greboreda.poker.hand;
 
-import com.greboreda.poker.card.Card;
-import com.greboreda.poker.card.Suit;
-import com.greboreda.poker.card.Value;
-import com.greboreda.poker.hand.rank.Rank.RankValue;
 import org.junit.jupiter.api.Test;
 
+import static com.greboreda.poker.card.CardBuilder.CardCreator.a;
+import static com.greboreda.poker.card.Suit.HEARTS;
+import static com.greboreda.poker.hand.rank.Rank.RankValue.ROYAL_FLUSH;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,32 +17,34 @@ class HandTest {
 	@Test
 	void testBuildHand() {
 
-		final Card card1 = Card.create().withValue(Value.ACE).withSuit(Suit.HEARTS).build();
-		final Card card2 = Card.create().withValue(Value.TEN).withSuit(Suit.HEARTS).build();
-		final Card card3 = Card.create().withValue(Value.KING).withSuit(Suit.HEARTS).build();
-		final Card card4 = Card.create().withValue(Value.QUEEN).withSuit(Suit.HEARTS).build();
-		final Card card5 = Card.create().withValue(Value.JACK).withSuit(Suit.HEARTS).build();
-
-		final Hand hand = new Hand(card1, card2, card3, card4, card5);
+		final Hand hand = new Hand(
+				a().ACE.of.HEARTS,
+				a().TEN.of.HEARTS,
+				a().KING.of.HEARTS,
+				a().QUEEN.of.HEARTS,
+				a().JACK.of.HEARTS
+		);
 		assertAll("is valid hand",
-				() -> assertThat(hand.getDistinctSuits(), hasItem(Suit.HEARTS)),
+				() -> assertThat(hand.getDistinctSuits(), hasItem(HEARTS)),
 				() -> assertThat(hand.findValuesRepeated(2), empty())
 		);
 		assertAll("hand rank",
-				() -> assertThat(hand.getRank().getRankValue(), is(RankValue.ROYAL_FLUSH))
+				() -> assertThat(hand.getRank().getRankValue(), is(ROYAL_FLUSH))
 		);
 	}
 
 	@Test
 	void when_notAllCardsAreDifferentEachOther_then_throwError() {
 
-		final Card card1 = Card.create().withValue(Value.ACE).withSuit(Suit.HEARTS).build();
-		final Card card2 = Card.create().withValue(Value.TEN).withSuit(Suit.HEARTS).build();
-		final Card card3 = Card.create().withValue(Value.KING).withSuit(Suit.HEARTS).build();
-		final Card card4 = Card.create().withValue(Value.QUEEN).withSuit(Suit.HEARTS).build();
-		final Card card5 = Card.create().withValue(Value.ACE).withSuit(Suit.HEARTS).build();
-
-		final Throwable exception = assertThrows(IllegalStateException.class, () -> new Hand(card1, card2, card3, card4, card5));
+		final Throwable exception = assertThrows(IllegalStateException.class,
+				() -> new Hand(
+						a().ACE.of.HEARTS,
+						a().TEN.of.HEARTS,
+						a().KING.of.HEARTS,
+						a().QUEEN.of.HEARTS,
+						a().ACE.of.HEARTS
+				)
+		);
 		assertThat(exception.getMessage(), is("cards must be different each other"));
 	}
 

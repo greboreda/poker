@@ -7,7 +7,7 @@ public class Card {
 	private final Value value;
 	private final Suit suit;
 
-	private Card(Value value, Suit suit) {
+	public Card(Value value, Suit suit) {
 		Validate.notNull(value);
 		Validate.notNull(suit);
 		this.value = value;
@@ -38,27 +38,6 @@ public class Card {
 		int result = value != null ? value.hashCode() : 0;
 		result = 31 * result + (suit != null ? suit.hashCode() : 0);
 		return result;
-	}
-
-	public static CardBuilder create() {
-		return new CardBuilder();
-	}
-
-	public static class CardBuilder {
-		@FunctionalInterface
-		public interface AddSuit {
-			Builder withSuit(Suit suit);
-		}
-		@FunctionalInterface
-		public interface Builder {
-			Card build();
-		}
-		private CardBuilder() {
-
-		}
-		public AddSuit withValue(Value value) {
-			return suit -> () -> new Card(value, suit);
-		}
 	}
 
 }
