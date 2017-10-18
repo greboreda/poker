@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -62,7 +63,10 @@ public enum Value implements ComparableEnum<Value> {
 				.mapToInt(Value::getWeight)
 				.sum();
 		return hash == expectedHash;
+	}
 
+	public static Stream<Value> valueStream() {
+		return Stream.of(Value.values());
 	}
 
 }

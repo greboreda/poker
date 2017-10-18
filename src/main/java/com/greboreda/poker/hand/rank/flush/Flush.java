@@ -21,7 +21,6 @@ public class Flush implements Rank {
 
 	private Flush(Value kicker1, Value kicker2, Value kicker3, Value kicker4, Value kicker5) {
 		checkAreDistinctAndNotConsecutive(kicker1, kicker2, kicker3, kicker4, kicker5);
-
 		final List<Value> orderedKickers = Stream.of(kicker1, kicker2, kicker3, kicker4, kicker5)
 				.sorted(Comparator.comparingInt(Value::getWeight).reversed())
 				.collect(toList());

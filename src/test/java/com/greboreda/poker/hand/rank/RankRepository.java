@@ -1,6 +1,5 @@
 package com.greboreda.poker.hand.rank;
 
-import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.flush.Flush;
 import com.greboreda.poker.hand.rank.fourofakind.FourOfAKind;
 import com.greboreda.poker.hand.rank.fullhouse.FullHouse;
@@ -12,6 +11,16 @@ import com.greboreda.poker.hand.rank.straightflush.StraightFlush;
 import com.greboreda.poker.hand.rank.threeofakind.ThreeOfAKind;
 import com.greboreda.poker.hand.rank.twopair.TwoPair;
 
+import static com.greboreda.poker.card.Value.ACE;
+import static com.greboreda.poker.card.Value.EIGHT;
+import static com.greboreda.poker.card.Value.KING;
+import static com.greboreda.poker.card.Value.SEVEN;
+import static com.greboreda.poker.card.Value.SIX;
+import static com.greboreda.poker.card.Value.TEN;
+import static com.greboreda.poker.card.Value.THREE;
+import static com.greboreda.poker.card.Value.TWO;
+import static com.greboreda.poker.card.Value.valueStream;
+
 public class RankRepository {
 
 	public static RoyalFlush createRoyalFlush() {
@@ -20,72 +29,76 @@ public class RankRepository {
 
 	public static StraightFlush createStraightFlush() {
 		return StraightFlush.create()
-				.withHigh(Value.KING)
+				.withHigh(valueStream()
+						.filter(v -> v != ACE)
+						.filter(v -> v.getWeight() >= SIX.getWeight())
+						.findAny()
+						.orElse(KING))
 				.build();
 	}
 
 	public static FourOfAKind createFourOfAKind() {
 		return FourOfAKind.create()
-				.of(Value.ACE)
-				.withKicker(Value.EIGHT)
+				.of(ACE)
+				.withKicker(EIGHT)
 				.build();
 	}
 
 	public static FullHouse createFullHouse() {
 		return FullHouse.create()
-				.of(Value.ACE)
-				.over(Value.TEN)
+				.of(ACE)
+				.over(TEN)
 				.build();
 	}
 
 	public static Flush createFlush() {
 		return Flush.create()
-				.withKicker(Value.ACE)
-				.withKicker(Value.TEN)
-				.withKicker(Value.SIX)
-				.withKicker(Value.THREE)
-				.withKicker(Value.TWO)
+				.withKicker(ACE)
+				.withKicker(TEN)
+				.withKicker(SIX)
+				.withKicker(THREE)
+				.withKicker(TWO)
 				.build();
 	}
 
 	public static Straight createStraight() {
 		return Straight.create()
-				.withHigh(Value.ACE)
+				.withHigh(ACE)
 				.build();
 	}
 
 	public static ThreeOfAKind createThreeOfAKind() {
 		return ThreeOfAKind.create()
-				.of(Value.THREE)
-				.withHighKicker(Value.KING)
-				.withLowKicker(Value.TEN)
+				.of(THREE)
+				.withHighKicker(KING)
+				.withLowKicker(TEN)
 				.build();
 	}
 
 	public static TwoPair createTwoPair() {
 		return TwoPair.create()
-				.withHighPair(Value.TEN)
-				.withLowPair(Value.THREE)
-				.withKicker(Value.SIX)
+				.withHighPair(TEN)
+				.withLowPair(THREE)
+				.withKicker(SIX)
 				.build();
 	}
 
 	public static OnePair createOnePair() {
 		return OnePair.create()
-				.of(Value.TWO)
-				.withHighKiker(Value.KING)
-				.withSecondKicker(Value.TEN)
-				.withThirdKicker(Value.THREE)
+				.of(TWO)
+				.withHighKiker(KING)
+				.withSecondKicker(TEN)
+				.withThirdKicker(THREE)
 				.build();
 	}
 
 	public static HighCard createHighCard() {
 		return HighCard.create()
-				.of(Value.KING)
-				.withSecond(Value.TEN)
-				.withThird(Value.SEVEN)
-				.withFourth(Value.THREE)
-				.withFifth(Value.TWO)
+				.of(KING)
+				.withSecond(TEN)
+				.withThird(SEVEN)
+				.withFourth(THREE)
+				.withFifth(TWO)
 				.build();
 	}
 
