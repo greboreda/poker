@@ -59,7 +59,6 @@ class TwoPairTest {
 		);
 	}
 
-
 	@ParameterizedTest
 	@MethodSource("retrieveRanksWorseThanTwoPair")
 	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {

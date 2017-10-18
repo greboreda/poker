@@ -17,7 +17,7 @@ public class ThreeOfAKindComparator implements RankComparator {
 	@Override
 	public ComparisionPairs<Value> retrieveComparisionPairs() {
 		return ComparisionPairs.forClass(Value.class)
-				.withPair(aThreeOfAKind.getValue(), anotherThreeOfAKind.getLowKicker())
+				.withPair(aThreeOfAKind.getValue(), anotherThreeOfAKind.getValue())
 				.withPair(aThreeOfAKind.getHighKicker(), anotherThreeOfAKind.getHighKicker())
 				.withPair(aThreeOfAKind.getLowKicker(), anotherThreeOfAKind.getLowKicker())
 				.build();
