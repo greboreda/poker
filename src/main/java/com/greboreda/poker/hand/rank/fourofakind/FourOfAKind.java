@@ -8,21 +8,21 @@ import java.util.Arrays;
 
 public class FourOfAKind implements Rank {
 
-	private final Value value;
+	private final Value quads;
 	private final Value kicker;
 
-	private FourOfAKind(Value value, Value kicker) {
-		Validate.notNull(value);
+	private FourOfAKind(Value quads, Value kicker) {
+		Validate.notNull(quads);
 		Validate.notNull(kicker);
-		if(!Value.areDistinct(Arrays.asList(value, kicker))) {
-			throw new IllegalStateException("value and kicker must be different");
+		if(!Value.areDistinct(Arrays.asList(quads, kicker))) {
+			throw new IllegalStateException("quads and kicker must be different");
 		}
-		this.value = value;
+		this.quads = quads;
 		this.kicker = kicker;
 	}
 
-	public Value getValue() {
-		return value;
+	public Value getQuads() {
+		return quads;
 	}
 
 	public Value getKicker() {

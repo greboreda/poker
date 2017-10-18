@@ -24,7 +24,6 @@ public class Flush implements Rank {
 		final List<Value> orderedKickers = Stream.of(kicker1, kicker2, kicker3, kicker4, kicker5)
 				.sorted(Comparator.comparingInt(Value::getWeight).reversed())
 				.collect(toList());
-
 		this.highKicker = orderedKickers.get(0);
 		this.secondKicker = orderedKickers.get(1);
 		this.thirdKicker = orderedKickers.get(2);
@@ -71,19 +70,19 @@ public class Flush implements Rank {
 	public static class FlushBuilder {
 		@FunctionalInterface
 		public interface AddSecondKicker {
-			AddThirdKicker withKicker(Value value);
+			AddThirdKicker with(Value value);
 		}
 		@FunctionalInterface
 		public interface AddThirdKicker {
-			AddFourthKicker withKicker(Value value);
+			AddFourthKicker with(Value value);
 		}
 		@FunctionalInterface
 		public interface AddFourthKicker {
-			AddFifthKicker withKicker(Value value);
+			AddFifthKicker with(Value value);
 		}
 		@FunctionalInterface
 		public interface AddFifthKicker {
-			Builder withKicker(Value value);
+			Builder with(Value value);
 		}
 		@FunctionalInterface
 		public interface Builder {
@@ -92,7 +91,7 @@ public class Flush implements Rank {
 		private FlushBuilder() {
 
 		}
-		public AddSecondKicker withKicker(Value first) {
+		public AddSecondKicker with(Value first) {
 			return second -> third -> fourth -> fifth -> () -> new Flush(first, second, third, fourth, fifth);
 		}
 	}

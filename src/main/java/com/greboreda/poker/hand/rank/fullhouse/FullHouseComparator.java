@@ -17,7 +17,7 @@ public class FullHouseComparator implements RankComparator {
 	@Override
 	public ComparisionPairs<Value> retrieveComparisionPairs() {
 		return ComparisionPairs.forClass(Value.class)
-				.withPair(aFullHouse.getValue(), anotherFullHouse.getValue())
+				.withPair(aFullHouse.getTrips(), anotherFullHouse.getTrips())
 				.withPair(aFullHouse.getOver(), anotherFullHouse.getOver())
 				.build();
 	}

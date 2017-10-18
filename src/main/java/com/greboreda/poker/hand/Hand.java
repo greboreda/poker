@@ -1,9 +1,11 @@
 package com.greboreda.poker.hand;
 
+import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Card;
 import com.greboreda.poker.card.Suit;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
+import com.greboreda.poker.hand.rank.Rank.RankValue;
 import com.greboreda.poker.hand.rank.RankFactory;
 import org.apache.commons.lang3.Validate;
 
@@ -35,8 +37,13 @@ public class Hand {
 		rank = RankFactory.retrieveRank(this);
 	}
 
-	public Rank getRank() {
-		return rank;
+	public RankValue getRank() {
+		return rank.getRankValue();
+	}
+
+	public Comparision compare(Hand another) {
+		Validate.notNull(another);
+		return this.rank.compare(another.rank);
 	}
 
 	public Set<Suit> getDistinctSuits() {

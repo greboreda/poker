@@ -6,6 +6,10 @@ import com.greboreda.poker.hand.rank.fourofakind.FourOfAKind;
 import com.greboreda.poker.hand.rank.fourofakind.FourOfAKindComparator;
 import com.greboreda.poker.hand.rank.fullhouse.FullHouse;
 import com.greboreda.poker.hand.rank.fullhouse.FullHouseComparator;
+import com.greboreda.poker.hand.rank.highcard.HighCard;
+import com.greboreda.poker.hand.rank.highcard.HighCardComparator;
+import com.greboreda.poker.hand.rank.onepair.OnePair;
+import com.greboreda.poker.hand.rank.onepair.OnePairComparator;
 import com.greboreda.poker.hand.rank.royalflush.RoyalFlush;
 import com.greboreda.poker.hand.rank.royalflush.RoyalFlushComparator;
 import com.greboreda.poker.hand.rank.straight.Straight;
@@ -33,6 +37,9 @@ class RankComparatorFactory {
 		map.put(Straight.class, (r1, r2) -> new StraightComparator((Straight) r1, (Straight) r2));
 		map.put(ThreeOfAKind.class, (r1, r2) -> new ThreeOfAKindComparator((ThreeOfAKind) r1, (ThreeOfAKind) r2));
 		map.put(TwoPair.class, (r1, r2) -> new TwoPairComparator((TwoPair) r1, (TwoPair) r2));
+		map.put(OnePair.class, (r1, r2) -> new OnePairComparator((OnePair) r1, (OnePair) r2));
+		map.put(HighCard.class, (r1, r2) -> new HighCardComparator((HighCard) r1, (HighCard) r2));
+
 	}
 
 	static <R extends Rank> RankComparator create(Class<? extends Rank> clazz, R aRank, R anotherRank) {

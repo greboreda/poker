@@ -6,7 +6,10 @@ import com.greboreda.poker.hand.rank.Rank;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HighCard implements Rank {
 
@@ -18,18 +21,14 @@ public class HighCard implements Rank {
 
 	private HighCard(Value high, Value second, Value third, Value fourth, Value fifth) {
 		checkAreDistinctAndNotConsecutive(high, second, third, fourth, fifth);
-		checkOrder(high, second, third, fourth, fifth);
-		this.high = high;
-		this.second = second;
-		this.third = third;
-		this.fourth = fourth;
-		this.fifth = fifth;
-	}
-
-	private void checkOrder(Value high, Value second, Value third, Value fourth, Value fifth) {
-		if(!high.wins(second) || !second.wins(third) || !third.wins(fourth) || !fourth.wins(fifth)) {
-			throw new IllegalStateException("values order is not valid");
-		}
+		final List<Value> sortedValues = Stream.of(high, second, third, fourth, fifth)
+				.sorted(Comparator.comparingInt(Value::getWeight).reversed())
+				.collect(Collectors.toList());
+		this.high = sortedValues.get(0);
+		this.second = sortedValues.get(1);
+		this.third = sortedValues.get(2);
+		this.fourth = sortedValues.get(3);
+		this.fifth = sortedValues.get(4);
 	}
 
 	private void checkAreDistinctAndNotConsecutive(Value highKicker, Value secondKicker, Value thirdKicker, Value fourthKicker, Value fifthKicker) {
@@ -76,19 +75,19 @@ public class HighCard implements Rank {
 	public static class HighCardBuilder {
 		@FunctionalInterface
 		public interface AddSecond{
-			AddThird withSecond(Value second);
+			AddThird with(Value value);
 		}
 		@FunctionalInterface
 		public interface AddThird{
-			AddFourth withThird(Value third);
+			AddFourth with(Value value);
 		}
 		@FunctionalInterface
 		public interface AddFourth{
-			AddFifth withFourth(Value fourth);
+			AddFifth with(Value value);
 		}
 		@FunctionalInterface
 		public interface AddFifth{
-			Builder withFifth(Value fifth);
+			Builder with(Value value);
 		}
 		@FunctionalInterface
 		public interface Builder {
@@ -97,7 +96,7 @@ public class HighCard implements Rank {
 		private HighCardBuilder() {
 
 		}
-		public AddSecond of(Value of) {
+		public AddSecond with(Value of) {
 			return second -> third -> fourth -> fifth -> () -> new HighCard(of, second, third, fourth, fifth);
 		}
 	}

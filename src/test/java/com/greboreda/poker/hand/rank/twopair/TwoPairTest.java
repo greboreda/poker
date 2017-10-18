@@ -1,7 +1,6 @@
 package com.greboreda.poker.hand.rank.twopair;
 
 import com.greboreda.poker.hand.Hand;
-import com.greboreda.poker.hand.rank.Rank;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,26 +13,23 @@ import static com.greboreda.poker.Comparision.WIN;
 import static com.greboreda.poker.card.CardBuilder.CardCreator.a;
 import static com.greboreda.poker.card.Value.ACE;
 import static com.greboreda.poker.card.Value.FOUR;
-import static com.greboreda.poker.card.Value.JACK;
 import static com.greboreda.poker.card.Value.KING;
 import static com.greboreda.poker.card.Value.QUEEN;
-import static com.greboreda.poker.card.Value.SIX;
 import static com.greboreda.poker.card.Value.TEN;
 import static com.greboreda.poker.card.Value.THREE;
 import static com.greboreda.poker.card.Value.TWO;
 import static com.greboreda.poker.hand.rank.Rank.RankValue.TWO_PAIR;
-import static com.greboreda.poker.hand.rank.RankRepository.createFlush;
-import static com.greboreda.poker.hand.rank.RankRepository.createFourOfAKind;
-import static com.greboreda.poker.hand.rank.RankRepository.createFullHouse;
-import static com.greboreda.poker.hand.rank.RankRepository.createHighCard;
-import static com.greboreda.poker.hand.rank.RankRepository.createOnePair;
-import static com.greboreda.poker.hand.rank.RankRepository.createRoyalFlush;
-import static com.greboreda.poker.hand.rank.RankRepository.createStraight;
-import static com.greboreda.poker.hand.rank.RankRepository.createThreeOfAKind;
-import static com.greboreda.poker.hand.rank.RankRepository.createTwoPair;
+import static com.greboreda.poker.hand.util.HandRepository.aFlush;
+import static com.greboreda.poker.hand.util.HandRepository.aFourOfAKind;
+import static com.greboreda.poker.hand.util.HandRepository.aFullHouse;
+import static com.greboreda.poker.hand.util.HandRepository.aHighCard;
+import static com.greboreda.poker.hand.util.HandRepository.aOnePair;
+import static com.greboreda.poker.hand.util.HandRepository.aRoyalFlush;
+import static com.greboreda.poker.hand.util.HandRepository.aStraight;
+import static com.greboreda.poker.hand.util.HandRepository.aThreeOfAKind;
+import static com.greboreda.poker.hand.util.HandRepository.aTwoPair;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TwoPairTest {
@@ -41,50 +37,42 @@ class TwoPairTest {
 	@Test
 	void when_handHasTwoCardsRepeatedTwoTimes_then_hasTwoPairRank() {
 
-		final Hand twoPairHand = new Hand(
+		final Hand twoPair = new Hand(
 				a().TEN.of.DIAMONDS,
 				a().TEN.of.SPADES,
 				a().SIX.of.DIAMONDS,
 				a().SIX.of.HEARTS,
-				a().JACK.of.CLUBS
-		);
-		final Rank rank = twoPairHand.getRank();
+				a().JACK.of.CLUBS);
 
-		assertThat(rank.getRankValue(), is(TWO_PAIR));
-		final TwoPair twoPair = (TwoPair) rank;
-		assertAll("two pais is valid",
-				() -> assertThat(twoPair.getHighPair(), is(TEN)),
-				() -> assertThat(twoPair.getLowPair(), is(SIX)),
-				() -> assertThat(twoPair.getKicker(), is(JACK))
-		);
+		assertThat(twoPair.getRank(), is(TWO_PAIR));
 	}
 
 	@ParameterizedTest
-	@MethodSource("retrieveRanksWorseThanTwoPair")
-	void when_comparingWithAnotherRankIfAnotherRankIsWorse_then_resultIsWin(Rank worseRank) {
-		final TwoPair twoPair = createTwoPair();
-		assertThat(twoPair.compare(worseRank), is(WIN));
+	@MethodSource("retrieveHandsWorseThanTwoPair")
+	void should_win_if_compares_with_another_hand_with_worse_rank(Hand worseHand) {
+		final Hand twoPair = aTwoPair();
+		assertThat(twoPair.compare(worseHand), is(WIN));
 	}
 
-	private static Stream<Rank> retrieveRanksWorseThanTwoPair() {
-		return Stream.of(createOnePair(), createHighCard());
+	private static Stream<Hand> retrieveHandsWorseThanTwoPair() {
+		return Stream.of(aOnePair(), aHighCard());
 	}
 
 	@ParameterizedTest
-	@MethodSource("retrieveRanksBetterThanTwoPair")
-	void when_comparingWithAnotherRankIfAnotherRankIsBetter_then_resultIsLoose(Rank betterRank) {
-		final TwoPair twoPair = createTwoPair();
-		assertThat(twoPair.compare(betterRank), is(LOOSE));
+	@MethodSource("retrieveHandsBetterThanTwoPair")
+	void should_loose_if_compares_with_another_hand_with_better_rank(Hand betterHand) {
+		final Hand twoPair = aTwoPair();
+		assertThat(twoPair.compare(betterHand), is(LOOSE));
 	}
-	private static Stream<Rank> retrieveRanksBetterThanTwoPair() {
+	private static Stream<Hand> retrieveHandsBetterThanTwoPair() {
 		return Stream.of(
-				createRoyalFlush(),
-				createFourOfAKind(),
-				createRoyalFlush(),
-				createFullHouse(),
-				createFlush(),
-				createStraight(),
-				createThreeOfAKind());
+				aRoyalFlush(),
+				aFourOfAKind(),
+				aRoyalFlush(),
+				aFullHouse(),
+				aFlush(),
+				aStraight(),
+				aThreeOfAKind());
 	}
 
 	@Test

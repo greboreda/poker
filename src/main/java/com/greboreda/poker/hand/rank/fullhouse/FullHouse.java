@@ -1,27 +1,26 @@
 package com.greboreda.poker.hand.rank.fullhouse;
 
 import com.greboreda.poker.card.Value;
-import com.greboreda.poker.Comparision;
 import com.greboreda.poker.hand.rank.Rank;
 import org.apache.commons.lang3.Validate;
 
 public class FullHouse implements Rank {
 
-	private final Value value;
+	private final Value trips;
 	private final Value over;
 
-	private FullHouse(Value value, Value over) {
-		Validate.notNull(value);
+	private FullHouse(Value trips, Value over) {
+		Validate.notNull(trips);
 		Validate.notNull(over);
-		if(value.equals(over)) {
-			throw new IllegalStateException("value and over must be different");
+		if(trips.equals(over)) {
+			throw new IllegalStateException("trips and over must be different");
 		}
-		this.value = value;
+		this.trips = trips;
 		this.over = over;
 	}
 
-	public Value getValue() {
-		return value;
+	public Value getTrips() {
+		return trips;
 	}
 
 	public Value getOver() {

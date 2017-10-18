@@ -25,11 +25,11 @@ public class FlushCalculator implements RankCalculator<Flush> {
 				.iterator();
 
 		return Optional.of(Flush.create()
-				.withKicker(iterator.next())
-				.withKicker(iterator.next())
-				.withKicker(iterator.next())
-				.withKicker(iterator.next())
-				.withKicker(iterator.next())
+				.with(iterator.next())
+				.with(iterator.next())
+				.with(iterator.next())
+				.with(iterator.next())
+				.with(iterator.next())
 				.build());
 	}
 }

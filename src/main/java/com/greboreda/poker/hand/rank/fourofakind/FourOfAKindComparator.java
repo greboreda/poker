@@ -17,7 +17,7 @@ public class FourOfAKindComparator implements RankComparator {
 	@Override
 	public ComparisionPairs<Value> retrieveComparisionPairs() {
 		return ComparisionPairs.forClass(Value.class)
-				.withPair(aFourOfAKind.getValue(), anotherFourOfAKind.getValue())
+				.withPair(aFourOfAKind.getQuads(), anotherFourOfAKind.getQuads())
 				.withPair(aFourOfAKind.getKicker(), anotherFourOfAKind.getKicker())
 				.build();
 	}

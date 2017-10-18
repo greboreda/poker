@@ -29,7 +29,7 @@ class HandTest {
 				() -> assertThat(hand.findValuesRepeated(2), empty())
 		);
 		assertAll("hand rank",
-				() -> assertThat(hand.getRank().getRankValue(), is(ROYAL_FLUSH))
+				() -> assertThat(hand.getRank(), is(ROYAL_FLUSH))
 		);
 	}
 
