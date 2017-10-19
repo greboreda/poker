@@ -10,19 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TwoPairRankTest {
 	@Test
-	void souhld_be_distinct_high_pair_than_low_pair() {
+	void should_have_distinct_high_pair_than_low_pair() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()
-				.withHighPair(TWO)
-				.withLowPair(TWO)
-				.withKicker(ACE)
-				.build());
-	}
-
-	@Test
-	void should_have_better_high_pair_than_low_pair() {
-		assertThrows(IllegalStateException.class, () -> TwoPair.create()
-				.withHighPair(TWO)
-				.withLowPair(THREE)
+				.withPair(TWO)
+				.withPair(TWO)
 				.withKicker(ACE)
 				.build());
 	}
@@ -30,8 +21,8 @@ public class TwoPairRankTest {
 	@Test
 	void should_have_distinct_high_pair_than_kicker() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()
-				.withHighPair(TWO)
-				.withLowPair(THREE)
+				.withPair(TWO)
+				.withPair(THREE)
 				.withKicker(TWO)
 				.build());
 	}
@@ -39,8 +30,8 @@ public class TwoPairRankTest {
 	@Test
 	void should_have_distinct_low_pair_than_kicker() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()
-				.withHighPair(ACE)
-				.withLowPair(THREE)
+				.withPair(ACE)
+				.withPair(THREE)
 				.withKicker(THREE)
 				.build());
 	}
