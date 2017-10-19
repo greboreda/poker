@@ -3,6 +3,9 @@ package com.greboreda.poker.hand.rank.threeofakind;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ThreeOfAKind implements Rank {
@@ -11,18 +14,19 @@ public class ThreeOfAKind implements Rank {
 	private final Value highKicker;
 	private final Value lowKicker;
 
-	private ThreeOfAKind(Value value, Value highKicker, Value lowKicker) {
-		checkAreDifferent(value, highKicker, lowKicker);
-		if(!highKicker.wins(lowKicker)) {
-			throw new IllegalStateException("highKicker must win lowKicker");
-		}
+	private ThreeOfAKind(Value value, Value kicker1, Value kicker2) {
+		checkAreDifferent(value, kicker1, kicker2);
+		final List<Value> sortedKickers = Stream.of(kicker1, kicker2)
+				.sorted(Comparator.comparingInt(Value::getWeight))
+				.collect(Collectors.toList());
 		this.value = value;
-		this.highKicker = highKicker;
-		this.lowKicker = lowKicker;
+		this.highKicker = sortedKickers.get(0);
+		this.lowKicker = sortedKickers.get(1);
 	}
 
 	private void checkAreDifferent(Value value, Value highKicker, Value lowKicker) {
 		final boolean allValuesAreDifferent = Stream.of(value, highKicker, lowKicker)
+				.distinct()
 				.count() == 3;
 		if(!allValuesAreDifferent) {
 			throw new IllegalStateException("value, highKicker and lowKicker must be different");
@@ -52,12 +56,12 @@ public class ThreeOfAKind implements Rank {
 
 	public static class ThreeOfAKindBuilder {
 		@FunctionalInterface
-		public interface AddHighKicker {
-			AddLowKicker withHighKicker(Value highKicker);
+		public interface AddAKicker {
+			AddAnotherKicker withKicker(Value highKicker);
 		}
 		@FunctionalInterface
-		public interface AddLowKicker {
-			Builder withLowKicker(Value lowKicker);
+		public interface AddAnotherKicker {
+			Builder withKicker(Value lowKicker);
 		}
 		@FunctionalInterface
 		public interface Builder {
@@ -66,8 +70,8 @@ public class ThreeOfAKind implements Rank {
 		private ThreeOfAKindBuilder() {
 
 		}
-		public AddHighKicker of(Value of) {
-			return highKicker -> lowKicker -> () -> new ThreeOfAKind(of, highKicker, lowKicker);
+		public AddAKicker of(Value of) {
+			return kicker1 -> kicker2 -> () -> new ThreeOfAKind(of, kicker1, kicker2);
 		}
 	}
 }

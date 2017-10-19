@@ -29,8 +29,8 @@ public class ThreeOfAKindCalculator implements RankCalculator<ThreeOfAKind> {
 
 		return Optional.of(ThreeOfAKind.create()
 				.of(trips)
-				.withHighKicker(sortedIterator.next())
-				.withLowKicker(sortedIterator.next())
+				.withKicker(sortedIterator.next())
+				.withKicker(sortedIterator.next())
 				.build());
 	}
 }
