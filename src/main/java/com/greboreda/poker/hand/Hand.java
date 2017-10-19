@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
@@ -31,7 +32,7 @@ public class Hand {
 		final Card[] params = {card1, card2, card3, card4, card5};
 		Validate.noNullElements(params);
 		cards = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(params)));
-		if (!allCardsHaveDistinctValue()) {
+		if (Stream.of(params).distinct().count() != NUMBER_OF_CARDS) {
 			throw new IllegalStateException("cards must be different each other");
 		}
 		rank = RankFactory.retrieveRank(this);
@@ -69,7 +70,10 @@ public class Hand {
 	}
 
 	public Boolean allCardsHaveDistinctValue() {
-		return cards.size() == NUMBER_OF_CARDS;
+		return cards.stream()
+				.map(Card::getValue)
+				.distinct()
+				.count() == NUMBER_OF_CARDS;
 	}
 
 	public Boolean cardsHaveConsecutiveValue() {
