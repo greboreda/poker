@@ -7,6 +7,7 @@ import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
 import com.greboreda.poker.hand.rank.Rank.RankValue;
 import com.greboreda.poker.hand.rank.RankFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.util.Arrays;
@@ -14,8 +15,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -80,5 +83,12 @@ public class Hand {
 		return Value.areConsecutive(cards.stream()
 				.map(Card::getValue)
 				.collect(toList()));
+	}
+
+	public String toString() {
+		return cards.stream()
+				.sorted(comparingInt((Card c) -> c.getValue().getWeight()).reversed())
+				.map(Card::toString)
+				.collect(Collectors.joining(StringUtils.SPACE));
 	}
 }

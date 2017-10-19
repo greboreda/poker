@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static com.greboreda.poker.card.CardBuilder.CardCreator.a;
 import static com.greboreda.poker.card.Suit.HEARTS;
 import static com.greboreda.poker.hand.rank.Rank.RankValue.ROYAL_FLUSH;
+import static com.greboreda.poker.hand.util.HandBuilder.hand;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,13 +18,13 @@ class HandTest {
 	@Test
 	void testBuildHand() {
 
-		final Hand hand = new Hand(
-				a().ACE.of.HEARTS,
-				a().TEN.of.HEARTS,
-				a().KING.of.HEARTS,
-				a().QUEEN.of.HEARTS,
-				a().JACK.of.HEARTS
-		);
+		final Hand hand = hand()
+				.with(a().ACE.of.HEARTS)
+				.with(a().TEN.of.HEARTS)
+				.with(a().KING.of.HEARTS)
+				.with(a().QUEEN.of.HEARTS)
+				.with(a().JACK.of.HEARTS);
+
 		assertAll("is valid hand",
 				() -> assertThat(hand.getDistinctSuits(), hasItem(HEARTS)),
 				() -> assertThat(hand.findValuesRepeated(2), empty())
@@ -34,18 +35,30 @@ class HandTest {
 	}
 
 	@Test
-	void when_notAllCardsAreDifferentEachOther_then_throwError() {
+	void should_all_cards_be_distinct() {
 
 		final Throwable exception = assertThrows(IllegalStateException.class,
-				() -> new Hand(
-						a().ACE.of.HEARTS,
-						a().TEN.of.HEARTS,
-						a().KING.of.HEARTS,
-						a().QUEEN.of.HEARTS,
-						a().ACE.of.HEARTS
-				)
+				() -> hand()
+						.with(a().ACE.of.HEARTS)
+						.with(a().TEN.of.HEARTS)
+						.with(a().KING.of.HEARTS)
+						.with(a().QUEEN.of.HEARTS)
+						.with(a().ACE.of.HEARTS)
 		);
 		assertThat(exception.getMessage(), is("cards must be different each other"));
+	}
+
+	@Test
+	void test_print_hand() {
+		final Hand hand = hand()
+				.with(a().EIGHT.of.HEARTS)
+				.with(a().JACK.of.DIAMONDS)
+				.with(a().TEN.of.SPADES)
+				.with(a().QUEEN.of.HEARTS)
+				.with(a().ACE.of.SPADES);
+
+		System.out.println(hand);
+
 	}
 
 }
