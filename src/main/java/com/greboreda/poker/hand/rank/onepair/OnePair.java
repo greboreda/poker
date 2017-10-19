@@ -1,11 +1,13 @@
 package com.greboreda.poker.hand.rank.onepair;
 
-import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
-import org.apache.commons.lang3.NotImplementedException;
 
-import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 public class OnePair implements Rank {
 
@@ -14,20 +16,25 @@ public class OnePair implements Rank {
 	private final Value secondKicker;
 	private final Value thirdKicker;
 
-	private OnePair(Value value, Value highKicker, Value secondKicker, Value thirdKicker) {
-		check(value, highKicker, secondKicker, thirdKicker);
+	private OnePair(Value value, Value kicker1, Value kicker2, Value kicker3) {
+		check(value, kicker1, kicker2, kicker3);
 		this.value = value;
-		this.highKicker = highKicker;
-		this.secondKicker = secondKicker;
-		this.thirdKicker = thirdKicker;
+
+		final List<Value> sortedKickers = Stream.of(kicker1, kicker2, kicker3)
+				.sorted(Comparator.comparingInt(Value::getWeight))
+				.collect(toList());
+
+		this.highKicker = sortedKickers.get(0);
+		this.secondKicker = sortedKickers.get(1);
+		this.thirdKicker = sortedKickers.get(2);
 	}
 
-	private void check(Value value, Value highKicker, Value secondKicker, Value thirdKicker) {
-		if(!Value.areDistinct(Arrays.asList(value, highKicker, secondKicker, thirdKicker))) {
+	private void check(Value value, Value kicker1, Value kicker2, Value kicker3) {
+		boolean areDistinctValues = Stream.of(value, kicker1, kicker2, kicker3)
+				.distinct()
+				.count() == 4;
+		if(!areDistinctValues) {
 			throw new IllegalStateException("value and kickers must be different");
-		}
-		if(!highKicker.wins(secondKicker) || !secondKicker.wins(thirdKicker)) {
-			throw new IllegalStateException("kickers order is not valid");
 		}
 	}
 
@@ -52,27 +59,22 @@ public class OnePair implements Rank {
 		return RankValue.ONE_PAIR;
 	}
 
-	@Override
-	public Comparision compare(Rank another) {
-		throw new NotImplementedException("not implemented yet");
-	}
-
 	public static OnePairBuilder create() {
 		return new OnePairBuilder();
 	}
 
 	public static class OnePairBuilder {
 		@FunctionalInterface
-		public interface AddHighKicker {
-			AddSecondKicker withHighKiker(Value highKicker);
+		public interface AddAKicker {
+			AddAnotherKicker withKicker(Value highKicker);
 		}
 		@FunctionalInterface
-		public interface AddSecondKicker {
-			AddThirdKicker withSecondKicker(Value secondKicker);
+		public interface AddAnotherKicker {
+			AddLastKicker withKicker(Value secondKicker);
 		}
 		@FunctionalInterface
-		public interface AddThirdKicker {
-			Builder withThirdKicker(Value thirdKicker);
+		public interface AddLastKicker {
+			Builder withKicker(Value thirdKicker);
 		}
 		@FunctionalInterface
 		public interface Builder {
@@ -81,8 +83,8 @@ public class OnePair implements Rank {
 		private OnePairBuilder() {
 
 		}
-		public AddHighKicker of(Value of) {
-			return highKicker -> secondKicker -> thirdKicker ->  () -> new OnePair(of, highKicker, secondKicker, thirdKicker);
+		public AddAKicker of(Value of) {
+			return kicker1 -> kicker2 -> kicker3 ->  () -> new OnePair(of, kicker1, kicker2, kicker3);
 		}
 	}
 }

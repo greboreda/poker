@@ -1,9 +1,7 @@
 package com.greboreda.poker.hand.rank.highcard;
 
-import com.greboreda.poker.Comparision;
 import com.greboreda.poker.card.Value;
 import com.greboreda.poker.hand.rank.Rank;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -61,11 +59,6 @@ public class HighCard implements Rank {
 	@Override
 	public RankValue getRankValue() {
 		return RankValue.HIGH_CARD;
-	}
-
-	@Override
-	public Comparision compare(Rank another) {
-		throw new NotImplementedException("not implemented yet");
 	}
 
 	public static HighCardBuilder create() {

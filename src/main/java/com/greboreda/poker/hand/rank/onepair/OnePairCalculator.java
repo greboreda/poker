@@ -28,9 +28,9 @@ public class OnePairCalculator implements RankCalculator<OnePair> {
 
 			return Optional.of(OnePair.create()
 					.of(of)
-					.withHighKiker(iterator.next())
-					.withSecondKicker(iterator.next())
-					.withThirdKicker(iterator.next())
+					.withKicker(iterator.next())
+					.withKicker(iterator.next())
+					.withKicker(iterator.next())
 					.build());
 		}
 	}

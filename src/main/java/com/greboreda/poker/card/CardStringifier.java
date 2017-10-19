@@ -21,7 +21,7 @@ import static com.greboreda.poker.card.Value.TEN;
 import static com.greboreda.poker.card.Value.THREE;
 import static com.greboreda.poker.card.Value.TWO;
 
-public class CardRepresentator {
+class CardStringifier {
 
 	private static final String more = "🂠🃟🂿🃏🂬🂼🃌🃜";
 	private static final Map<Suit,Map<Value,String>> map = new HashMap<>();
@@ -94,7 +94,7 @@ public class CardRepresentator {
 		diamonds.put(KING,	"🃎");
 	}
 
-	public static String getRepr(Value value, Suit suit) {
+	static String getRepresentation(Value value, Suit suit) {
 		return map.get(suit).get(value);
 	}
 

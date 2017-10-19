@@ -57,8 +57,7 @@ class HandTest {
 				.with(a().QUEEN.of.HEARTS)
 				.with(a().ACE.of.SPADES);
 
-		System.out.println(hand);
-
+		assertThat(hand.toString(), is("🂡 🂽 🃋 🂪 🂸"));
 	}
 
 }

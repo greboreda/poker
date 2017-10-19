@@ -41,7 +41,7 @@ public class Card {
 	}
 
 	public String toString() {
-		return CardRepresentator.getRepr(value, suit);
+		return CardStringifier.getRepresentation(value, suit);
 	}
 
 }
