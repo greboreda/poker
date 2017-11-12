@@ -13,6 +13,7 @@ import org.apache.commons.lang3.Validate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,7 +48,9 @@ public class Hand {
 
 	public Comparision compare(Hand another) {
 		Validate.notNull(another);
-		return this.rank.compare(another.rank);
+		final Comparision result = rank.compare(another.rank);
+		System.out.println(this + " vs " + another + " " + result);
+		return result;
 	}
 
 	public Set<Suit> getDistinctSuits() {
@@ -80,9 +83,10 @@ public class Hand {
 	}
 
 	public Boolean cardsHaveConsecutiveValue() {
-		return Value.areConsecutive(cards.stream()
+		final List<Value> cards = this.cards.stream()
 				.map(Card::getValue)
-				.collect(toList()));
+				.collect(toList());
+		return allCardsHaveDistinctValue() && Value.areConsecutive(cards);
 	}
 
 	public String toString() {

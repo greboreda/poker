@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Optional;
 
 public class HighCardCalculator implements RankCalculator<HighCard> {
+
 	@Override
 	public Optional<HighCard> calculateRank(Hand hand) {
 		final boolean allValuesAreDifferent = hand.allCardsHaveDistinctValue();

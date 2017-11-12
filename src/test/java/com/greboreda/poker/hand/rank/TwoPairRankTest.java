@@ -8,7 +8,7 @@ import static com.greboreda.poker.card.Value.THREE;
 import static com.greboreda.poker.card.Value.TWO;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TwoPairRankTest {
+class TwoPairRankTest {
 	@Test
 	void should_have_distinct_high_pair_than_low_pair() {
 		assertThrows(IllegalStateException.class, () -> TwoPair.create()

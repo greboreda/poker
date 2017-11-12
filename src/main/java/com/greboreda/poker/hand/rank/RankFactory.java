@@ -39,7 +39,7 @@ public class RankFactory {
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.findFirst()
-				.orElseThrow(IllegalStateException::new);
+				.orElseThrow(() -> new IllegalStateException("unable to calculate rank: " + hand));
 	}
 
 

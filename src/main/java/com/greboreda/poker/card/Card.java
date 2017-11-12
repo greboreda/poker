@@ -7,7 +7,7 @@ public class Card {
 	private final Value value;
 	private final Suit suit;
 
-	Card(Value value, Suit suit) {
+	public Card(Value value, Suit suit) {
 		Validate.notNull(value);
 		Validate.notNull(suit);
 		this.value = value;
